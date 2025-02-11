@@ -1,0 +1,43 @@
+import React from 'react';
+
+export const StartIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
+        <rect width="16" height="16" fill="#C0C0C0"/>
+        <rect x="2" y="2" width="5" height="5" fill="#FF0000"/>
+        <rect x="9" y="2" width="5" height="5" fill="#00FF00"/>
+        <rect x="2" y="9" width="5" height="5" fill="#0000FF"/>
+        <rect x="9" y="9" width="5" height="5" fill="#FFFF00"/>
+    </svg>
+);
+
+export const TerminalIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
+        <rect width="16" height="16" fill="#000000"/>
+        <text x="3" y="12" fill="#00FF00" style={{ font: '10px monospace' }}>{'>'}</text>
+    </svg>
+);
+
+export const AboutIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
+        <circle cx="8" cy="8" r="7" fill="#000080"/>
+        <text x="8" y="12" textAnchor="middle" fill="white" style={{ font: 'bold 12px sans-serif' }}>i</text>
+    </svg>
+);
+
+export const WindowControls = {
+    Close: () => (
+        <svg width="16" height="14" viewBox="0 0 16 14" className="inline-block">
+            <path d="M0,0 L16,14 M0,14 L16,0" stroke="black" strokeWidth="2"/>
+        </svg>
+    ),
+    Minimize: () => (
+        <svg width="16" height="14" viewBox="0 0 16 14" className="inline-block">
+            <line x1="2" y1="8" x2="14" y2="8" stroke="black" strokeWidth="2"/>
+        </svg>
+    ),
+    Maximize: () => (
+        <svg width="16" height="14" viewBox="0 0 16 14" className="inline-block">
+            <rect x="2" y="2" width="12" height="10" stroke="black" strokeWidth="2" fill="none"/>
+        </svg>
+    )
+};

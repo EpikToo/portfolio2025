@@ -3,40 +3,111 @@ import { useTranslation } from 'react-i18next';
 import './i18n';
 import Window from './components/Window/Window';
 import Terminal from './components/Terminal/Terminal';
+import Taskbar from './components/Taskbar/Taskbar';
 import { WindowManagerProvider } from './contexts/WindowManager';
 
 const AppContent = () => {
     const { t } = useTranslation();
     const [windows, setWindows] = useState({
-        terminal: true,
-        about: false,
+        terminal: {
+            isOpen: true,
+            isMinimized: false,
+            isActive: true,
+            title: 'Terminal'
+        },
+        about: {
+            isOpen: false,
+            isMinimized: false,
+            isActive: false,
+            title: 'À propos'
+        }
     });
 
-    const toggleWindow = (name) => {
+    // Gestion des clics dans la barre des tâches
+    const handleTaskbarClick = (windowId) => {
+        setWindows(prev => {
+            const newWindows = { ...prev };
+            // D'abord, on désactive toutes les fenêtres
+            Object.keys(newWindows).forEach(key => {
+                newWindows[key].isActive = false;
+            });
+
+            // Puis on restaure la fenêtre cliquée
+            newWindows[windowId] = {
+                ...newWindows[windowId],
+                isMinimized: false,
+                isActive: true
+            };
+
+            return newWindows;
+        });
+    };
+
+    // Gestion spécifique pour le menu démarrer
+    const handleStartMenuClick = (windowId) => {
+        setWindows(prev => {
+            const newWindows = { ...prev };
+            // On désactive toutes les fenêtres
+            Object.keys(newWindows).forEach(key => {
+                newWindows[key].isActive = false;
+            });
+
+            // On force l'ouverture de la fenêtre sélectionnée
+            newWindows[windowId] = {
+                ...newWindows[windowId],
+                isOpen: true,
+                isMinimized: false,
+                isActive: true
+            };
+
+            return newWindows;
+        });
+    };
+
+    const handleMinimize = (windowId) => {
         setWindows(prev => ({
             ...prev,
-            [name]: !prev[name]
+            [windowId]: {
+                ...prev[windowId],
+                isMinimized: true,
+                isActive: false
+            }
+        }));
+    };
+
+    const handleClose = (windowId) => {
+        setWindows(prev => ({
+            ...prev,
+            [windowId]: {
+                ...prev[windowId],
+                isOpen: false,
+                isMinimized: false,
+                isActive: false
+            }
         }));
     };
 
     return (
         <div className="h-screen flex flex-col overflow-hidden bg-win98-desktop">
-            {/* Zone du bureau */}
             <main className="flex-1 relative">
-                {windows.terminal && (
+                {windows.terminal.isOpen && (
                     <Window
                         title="Terminal"
-                        onClose={() => toggleWindow('terminal')}
+                        onClose={() => handleClose('terminal')}
+                        onMinimize={() => handleMinimize('terminal')}
+                        isMinimized={windows.terminal.isMinimized}
                         defaultPosition={{ x: 50, y: 50 }}
                     >
                         <Terminal />
                     </Window>
                 )}
 
-                {windows.about && (
+                {windows.about.isOpen && (
                     <Window
                         title="À propos"
-                        onClose={() => toggleWindow('about')}
+                        onClose={() => handleClose('about')}
+                        onMinimize={() => handleMinimize('about')}
+                        isMinimized={windows.about.isMinimized}
                         defaultPosition={{ x: 100, y: 100 }}
                     >
                         <div className="p-4 bg-white">
@@ -47,20 +118,11 @@ const AppContent = () => {
                 )}
             </main>
 
-            {/* Barre des tâches */}
-            <div className="h-taskbar bg-win98-taskbar border-t-2 border-white flex items-center px-2">
-                <button
-                    className="bg-win98-button-face shadow-win98-btn hover:shadow-win98-btn-pressed px-4 py-1 flex items-center gap-2"
-                    onClick={() => toggleWindow('about')}
-                >
-                    <img
-                        src="/api/placeholder/16/16"
-                        alt="Windows"
-                        className="w-4 h-4"
-                    />
-                    <span className="text-win98-button-text">{t('start')}</span>
-                </button>
-            </div>
+            <Taskbar
+                windows={windows}
+                onWindowClick={handleTaskbarClick}
+                onStartMenuSelect={handleStartMenuClick}
+            />
         </div>
     );
 };

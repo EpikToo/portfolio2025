@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef, useId } from 'react';
 import { useWindowManager } from '../../contexts/WindowManager';
+import { WindowControls } from '../icons/Win98Icons';
 
 const Window = ({
                     title = "Window",
                     children,
                     onClose,
+                    onMinimize,
+                    isMinimized = false,
                     defaultPosition = { x: 100, y: 100 },
                     defaultSize = { width: 400, height: 300 },
                     className = ""
@@ -29,6 +32,7 @@ const Window = ({
         return () => unregisterWindow(windowId);
     }, []);
 
+    // Fonctions pour la gestion de la fenêtre
     const saveCurrentState = () => ({
         position: { ...position },
         size: { ...size }
@@ -61,6 +65,7 @@ const Window = ({
         toggleMaximize();
     };
 
+    // Gestion du drag & drop
     const handleMouseDown = (e) => {
         if (isMaximized) return;
         if (e.target.closest('.resize-handle')) return;
@@ -167,6 +172,10 @@ const Window = ({
         };
     }, [isDragging, isResizing]);
 
+    if (isMinimized) {
+        return null;
+    }
+
     return (
         <div
             ref={windowRef}
@@ -183,6 +192,7 @@ const Window = ({
         >
             <div className="bg-win98-button-face border-2 border-white h-full">
                 <div className="border-2 border-win98-window-border-dark h-full flex flex-col">
+                    {/* Barre de titre */}
                     <div
                         className="window-title-bar bg-win98-window-title px-2 py-1 flex justify-between items-center cursor-grab select-none"
                         onMouseDown={handleMouseDown}
@@ -191,29 +201,35 @@ const Window = ({
                         <span className="text-win98-window-title-text font-bold text-sm">
                             {title}
                         </span>
+                        {/* Boutons de contrôle */}
                         <div className="flex gap-1">
-                            <button className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center">
-                                _
+                            <button
+                                className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
+                                onClick={onMinimize}
+                            >
+                                <WindowControls.Minimize />
                             </button>
                             <button
                                 className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
                                 onClick={toggleMaximize}
                             >
-                                {isMaximized ? '❐' : '□'}
+                                <WindowControls.Maximize />
                             </button>
                             <button
                                 className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
                                 onClick={onClose}
                             >
-                                ×
+                                <WindowControls.Close />
                             </button>
                         </div>
                     </div>
 
+                    {/* Contenu de la fenêtre */}
                     <div className="flex-1 relative">
                         {children}
                     </div>
 
+                    {/* Poignées de redimensionnement */}
                     {!isMaximized && (
                         <>
                             <div
