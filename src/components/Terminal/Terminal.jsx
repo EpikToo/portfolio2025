@@ -1,10 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Terminal = () => {
-    const [history, setHistory] = useState(['Bienvenue sur mon portfolio']);
+    const { t } = useTranslation();
+    const [history, setHistory] = useState([t('terminal.welcome')]);
     const [currentCommand, setCurrentCommand] = useState('');
     const [cursorVisible, setCursorVisible] = useState(true);
     const inputRef = useRef(null);
+
+    // Reset l'historique quand la langue change
+    useEffect(() => {
+        setHistory([t('terminal.welcome')]);
+    }, [t]);
 
     // Effet pour le clignotement du curseur
     useEffect(() => {
@@ -27,13 +34,20 @@ const Terminal = () => {
 
             // Simulation basique de réponses
             if (currentCommand.toLowerCase() === 'help') {
-                setHistory(prev => [...prev, 'Commandes disponibles:', '  help - Affiche cette aide', '  clear - Efface l\'écran', '  about - À propos de moi']);
+                setHistory(prev => [
+                    ...prev,
+                    t('terminal.help'),
+                    ...t('terminal.help_commands', { returnObjects: true })
+                ]);
             } else if (currentCommand.toLowerCase() === 'clear') {
                 setHistory([]);
             } else if (currentCommand.toLowerCase() === 'about') {
-                setHistory(prev => [...prev, 'Développeur fullstack passionné par le backend et les systèmes distribués']);
+                setHistory(prev => [...prev, t('terminal.about')]);
             } else if (currentCommand.trim() !== '') {
-                setHistory(prev => [...prev, `Commande non reconnue: ${currentCommand}`]);
+                setHistory(prev => [
+                    ...prev,
+                    t('terminal.command_not_found', { command: currentCommand })
+                ]);
             }
 
             setCurrentCommand('');

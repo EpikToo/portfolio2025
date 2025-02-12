@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import StartMenu from '../StartMenu/StartMenu';
+import LanguageSelector from '../LanguageSelector/LanguageSelector';
+import Win98Tooltip from '../Win98ToolTip/Win98Tooltip';
 import { StartIcon, TerminalIcon, AboutIcon } from '../icons/Win98Icons';
 
 const WindowButton = ({ title, isActive, isMinimized, onClick }) => {
@@ -9,6 +11,7 @@ const WindowButton = ({ title, isActive, isMinimized, onClick }) => {
             case 'Terminal':
                 return <TerminalIcon />;
             case 'À propos':
+            case 'About':
                 return <AboutIcon />;
             default:
                 return <TerminalIcon />;
@@ -34,6 +37,8 @@ const WindowButton = ({ title, isActive, isMinimized, onClick }) => {
 
 const SystemTray = () => {
     const [time, setTime] = useState(new Date());
+    const [showLangTooltip, setShowLangTooltip] = useState(true);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const timer = setInterval(() => setTime(new Date()), 1000);
@@ -42,6 +47,19 @@ const SystemTray = () => {
 
     return (
         <div className="flex items-center h-[30px] gap-2 px-2 shadow-win98-btn bg-win98-button-face">
+            <div className="relative">
+                <LanguageSelector />
+                {showLangTooltip && (
+                    <Win98Tooltip
+                        text={t('tooltips.language')}
+                        position="top"
+                        delay={1000}
+                        autoClose={5000}
+                        onClose={() => setShowLangTooltip(false)}
+                    />
+                )}
+            </div>
+            <div className="w-px h-[24px] mx-1 border-l border-win98-window-border-dark border-r border-white" />
             <span className="text-sm font-medium">
                 {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
@@ -52,6 +70,7 @@ const SystemTray = () => {
 const Taskbar = ({ windows, onWindowClick, onStartMenuSelect }) => {
     const { t } = useTranslation();
     const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
+    const [showStartTooltip, setShowStartTooltip] = useState(true);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -67,14 +86,25 @@ const Taskbar = ({ windows, onWindowClick, onStartMenuSelect }) => {
     return (
         <>
             <div className="h-taskbar bg-win98-taskbar flex items-center p-1 gap-1 border-t-2 border-white relative">
-                <button
-                    className={`start-button h-[30px] px-2 flex items-center gap-2 font-bold bg-win98-button-face
-                        ${isStartMenuOpen ? 'shadow-win98-btn-pressed' : 'shadow-win98-btn hover:shadow-win98-btn-pressed'}`}
-                    onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
-                >
-                    <StartIcon />
-                    <span className="text-win98-button-text">{t('start')}</span>
-                </button>
+                <div className="relative">
+                    <button
+                        className={`start-button h-[30px] px-2 flex items-center gap-2 font-bold bg-win98-button-face
+                            ${isStartMenuOpen ? 'shadow-win98-btn-pressed' : 'shadow-win98-btn hover:shadow-win98-btn-pressed'}`}
+                        onClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
+                    >
+                        <StartIcon />
+                        <span className="text-win98-button-text">{t('start')}</span>
+                    </button>
+                    {showStartTooltip && (
+                        <Win98Tooltip
+                            text={t('tooltips.start')}
+                            position="top"
+                            delay={500}
+                            autoClose={5000}
+                            onClose={() => setShowStartTooltip(false)}
+                        />
+                    )}
+                </div>
 
                 <div className="w-px h-[30px] mx-1 border-l border-win98-window-border-dark border-r border-white" />
 
@@ -83,7 +113,7 @@ const Taskbar = ({ windows, onWindowClick, onStartMenuSelect }) => {
                             window.isOpen && (
                                 <WindowButton
                                     key={id}
-                                    title={window.title}
+                                    title={t(`windows.${id}.title`)}
                                     isActive={window.isActive}
                                     isMinimized={window.isMinimized}
                                     onClick={() => onWindowClick(id)}
