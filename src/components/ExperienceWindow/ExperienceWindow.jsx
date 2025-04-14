@@ -33,42 +33,46 @@ const ExperienceWindow = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="h-full overflow-auto bg-win98-button-face p-4">
-            <div className="bg-white border-2 border-win98-window-border-dark mb-4">
-                <SectionTitle>{t('about.experiencetitle')}</SectionTitle>
+        <div className="h-full overflow-auto bg-gray-200 p-4">
+            <div className="bg-win98-button-face border-2 border-white shadow-win98-window mb-4">
+                <div className="border-2 border-win98-window-border-dark">
+                    <SectionTitle>{t('about.experiencetitle')}</SectionTitle>
 
-                <div className="p-4">
-                    <TimelineItem
-                        content={t('about.experiencecontent1')}
-                        isCurrent={false}
-                    />
-                    <TimelineItem
-                        content={t('about.experiencecontent2')}
-                        isCurrent={false}
-                    />
-                    <TimelineItem
-                        content={t('about.experiencecontent3')}
-                        isCurrent={true}
-                    />
-                    <TimelineItem
-                        content={t('about.experiencecontent4')}
-                        isCurrent={false}
-                    />
+                    <div className="p-4 bg-white">
+                        <TimelineItem
+                            content={t('about.experiencecontent1')}
+                            isCurrent={false}
+                        />
+                        <TimelineItem
+                            content={t('about.experiencecontent2')}
+                            isCurrent={false}
+                        />
+                        <TimelineItem
+                            content={t('about.experiencecontent3')}
+                            isCurrent={true}
+                        />
+                        <TimelineItem
+                            content={t('about.experiencecontent4')}
+                            isCurrent={false}
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="bg-white border-2 border-win98-window-border-dark">
-                <SectionTitle>{t('about.studiestitle')}</SectionTitle>
+            <div className="bg-win98-button-face border-2 border-white shadow-win98-window">
+                <div className="border-2 border-win98-window-border-dark">
+                    <SectionTitle>{t('about.studiestitle')}</SectionTitle>
 
-                <div className="p-4">
-                    <TimelineItem
-                        content={t('about.studiescontent1')}
-                        isCurrent={true}
-                    />
-                    <TimelineItem
-                        content={t('about.studiescontent2')}
-                        isCurrent={false}
-                    />
+                    <div className="p-4 bg-white">
+                        <TimelineItem
+                            content={t('about.studiescontent1')}
+                            isCurrent={true}
+                        />
+                        <TimelineItem
+                            content={t('about.studiescontent2')}
+                            isCurrent={false}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

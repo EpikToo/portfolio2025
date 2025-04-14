@@ -24,6 +24,7 @@ const Window = ({
     const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
     const [isMaximized, setIsMaximized] = useState(false);
     const [preMaximizeState, setPreMaximizeState] = useState(null);
+    const [isActive, setIsActive] = useState(false);
     const windowRef = useRef(null);
     const contentRef = useRef(null);
 
@@ -92,6 +93,7 @@ const Window = ({
         e.stopPropagation();
         const newZIndex = bringToFront(windowId);
         setZIndex(newZIndex);
+        setIsActive(true);
     };
 
     const handleTitleBarDoubleClick = (e) => {
@@ -225,15 +227,16 @@ const Window = ({
             }}
             onMouseDown={handleWindowClick}
         >
-            <div className="bg-win98-button-face border-2 border-white h-full w-full">
+            <div className="bg-win98-button-face border-2 border-white h-full w-full shadow-win98-window">
                 <div className="border-2 border-win98-window-border-dark h-full flex flex-col">
                     {/* Title bar */}
                     <div
-                        className="window-title-bar bg-win98-window-title px-2 py-1 flex justify-between items-center cursor-grab select-none"
+                        className={`window-title-bar px-2 py-1 flex justify-between items-center cursor-grab select-none
+                            ${isActive ? 'bg-win98-window-title text-white' : 'bg-gray-400 text-gray-200'}`}
                         onMouseDown={handleMouseDown}
                         onDoubleClick={handleTitleBarDoubleClick}
                     >
-                        <span className="text-win98-window-title-text font-bold text-sm">
+                        <span className="font-bold text-sm">
                             {title}
                         </span>
                         {/* Control buttons */}

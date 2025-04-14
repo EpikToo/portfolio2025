@@ -28,13 +28,13 @@ const AppContent = () => {
             title: t('windows.about.title')
         },
         projects: {
-            isOpen: true,  // Projects opened by default
+            isOpen: false,  // Projects closed by default - CHANGED THIS
             isMinimized: false,
             isActive: false,
             title: t('windows.projects.title')
         },
         experience: {
-            isOpen: false,  // Experience closed by default (to avoid cluttering the interface)
+            isOpen: false,  // Experience closed by default
             isMinimized: false,
             isActive: false,
             title: t('windows.experience.title')
@@ -156,12 +156,12 @@ const AppContent = () => {
 
     // Calculate positions for each window
     const getWindowPosition = (index) => {
-        // Predefined positions for each window type
+        // Predefined positions for each window type with more spacing
         const positions = [
-            { x: 50, y: 50 },    // Terminal
-            { x: 120, y: 40 },   // About
-            { x: 180, y: 100 },  // Projects
-            { x: 80, y: 120 }    // Experience
+            { x: 50, y: 50 },     // Terminal
+            { x: 150, y: 70 },    // About - ADJUSTED
+            { x: 250, y: 150 },   // Projects - ADJUSTED
+            { x: 100, y: 180 }    // Experience - ADJUSTED
         ];
 
         // If index is in the array, return its predefined position

@@ -15,7 +15,7 @@ const ProjectCard = ({ content }) => {
 
     return (
         <div className="mb-4 overflow-hidden">
-            <div className="bg-gray-200 border-2 border-win98-button-face">
+            <div className="bg-win98-button-face border-2 border-white shadow-win98-window">
                 <div className="border-2 border-win98-window-border-dark">
                     <div className="bg-win98-window-title text-white px-2 py-1 font-bold text-sm">
                         {title}
@@ -60,12 +60,12 @@ const ProjectsWindow = () => {
     );
 
     return (
-        <div className="h-full flex flex-col bg-win98-button-face">
-            <div className="p-4 border-b border-gray-300 bg-white">
-                <div className="shadow-win98-btn bg-white flex items-center">
+        <div className="h-full flex flex-col bg-gray-200">
+            <div className="p-4 border-b border-gray-300 bg-win98-button-face shadow-win98-window">
+                <div className="shadow-win98-btn bg-white flex items-center border-2 border-win98-window-border-dark">
                     <input
                         type="text"
-                        className="w-full border border-win98-window-border-dark px-2 py-1 focus:outline-none text-sm"
+                        className="w-full px-2 py-1 focus:outline-none text-sm"
                         placeholder={t('projects.search_placeholder') || "Search projects..."}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -82,21 +82,27 @@ const ProjectsWindow = () => {
             </div>
 
             <div className="flex-1 overflow-auto p-4">
-                <h2 className="text-lg font-bold mb-4 bg-win98-window-title text-white px-2 py-1">
-                    {t('about.projectstitle')}
-                </h2>
+                <div className="bg-win98-button-face border-2 border-white shadow-win98-window mb-4">
+                    <div className="border-2 border-win98-window-border-dark">
+                        <div className="bg-win98-window-title text-white px-2 py-1">
+                            <h2 className="text-lg font-bold">{t('about.projectstitle')}</h2>
+                        </div>
 
-                {filteredProjects.length > 0 ? (
-                    <div className="space-y-1">
-                        {filteredProjects.map((project, index) => (
-                            <ProjectCard key={index} content={project} />
-                        ))}
+                        <div className="p-2 bg-gray-100">
+                            {filteredProjects.length > 0 ? (
+                                <div className="space-y-1">
+                                    {filteredProjects.map((project, index) => (
+                                        <ProjectCard key={index} content={project} />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="text-center p-4 text-gray-500 bg-white border-2 border-win98-window-border-dark">
+                                    {t('projects.no_results') || "No projects match your search."}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                ) : (
-                    <div className="text-center p-4 text-gray-500 bg-white border-2 border-win98-window-border-dark">
-                        {t('projects.no_results') || "No projects match your search."}
-                    </div>
-                )}
+                </div>
             </div>
         </div>
     );
