@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import StartMenu from '../StartMenu/StartMenu';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import Win98Tooltip from '../Win98ToolTip/Win98Tooltip';
-import { StartIcon, TerminalIcon, AboutIcon } from '../icons/Win98Icons';
+import { StartIcon, TerminalIcon, AboutIcon, ProjectsIcon, ExperienceIcon } from '../icons/Win98Icons';
 
 const WindowButton = ({ title, isActive, isMinimized, onClick }) => {
     const getIcon = () => {
@@ -13,6 +13,12 @@ const WindowButton = ({ title, isActive, isMinimized, onClick }) => {
             case 'À propos':
             case 'About':
                 return <AboutIcon />;
+            case 'Projets':
+            case 'Projects':
+                return <ProjectsIcon />;
+            case 'Expérience':
+            case 'Experience':
+                return <ExperienceIcon />;
             default:
                 return <TerminalIcon />;
         }

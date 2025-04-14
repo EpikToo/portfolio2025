@@ -7,39 +7,47 @@ const Win98Tooltip = ({
                           className = '',
                           onClose,
                           delay = 0,
-                          autoClose = 0
+                          autoClose = 0,
+                          targetRef = null  // Référence vers l'élément cible
                       }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        // Délai initial avant apparition
         const showTimeout = setTimeout(() => {
             setIsMounted(true);
             setIsVisible(true);
         }, delay);
 
-        // Auto-fermeture si configurée
         let closeTimeout;
         if (autoClose > 0) {
-            closeTimeout = setTimeout(() => {
-                handleClose();
-            }, delay + autoClose);
+            closeTimeout = setTimeout(handleClose, delay + autoClose);
+        }
+
+        // Gestion du hover sur l'élément cible
+        const targetElement = targetRef?.current;
+        if (targetElement) {
+            const handleTargetHover = () => handleClose();
+            targetElement.addEventListener('mouseenter', handleTargetHover);
+            return () => {
+                targetElement.removeEventListener('mouseenter', handleTargetHover);
+                clearTimeout(showTimeout);
+                clearTimeout(closeTimeout);
+            };
         }
 
         return () => {
             clearTimeout(showTimeout);
             if (closeTimeout) clearTimeout(closeTimeout);
         };
-    }, [delay, autoClose, onClose]);
+    }, [delay, autoClose, onClose, targetRef]);
 
     const handleClose = () => {
         setIsVisible(false);
-        // Attend la fin de l'animation avant de démonter
         setTimeout(() => {
             setIsMounted(false);
             onClose?.();
-        }, 150); // Durée de l'animation
+        }, 150);
     };
 
     if (!isMounted) return null;
@@ -52,7 +60,6 @@ const Win98Tooltip = ({
     };
 
     const Arrow = () => {
-        const baseClasses = "absolute border-black";
         const arrowClasses = {
             top: "bottom-[-6px] left-1/2 -translate-x-1/2 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-[#FFFFE1]",
             bottom: "top-[-6px] left-1/2 -translate-x-1/2 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-[#FFFFE1]",

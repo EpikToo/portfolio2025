@@ -1,5 +1,6 @@
 import React from 'react';
-import { TerminalIcon, AboutIcon } from '../icons/Win98Icons';
+import { useTranslation } from 'react-i18next';
+import { TerminalIcon, AboutIcon, ProjectsIcon, ExperienceIcon } from '../icons/Win98Icons';
 
 const MenuItem = ({ title, onClick, className = "" }) => {
     const getIcon = () => {
@@ -7,7 +8,14 @@ const MenuItem = ({ title, onClick, className = "" }) => {
             case 'Terminal':
                 return <TerminalIcon />;
             case 'À propos':
+            case 'About':
                 return <AboutIcon />;
+            case 'Projets':
+            case 'Projects':
+                return <ProjectsIcon />;
+            case 'Expérience':
+            case 'Experience':
+                return <ExperienceIcon />;
             default:
                 return <TerminalIcon />;
         }
@@ -26,6 +34,8 @@ const MenuItem = ({ title, onClick, className = "" }) => {
 };
 
 const StartMenu = ({ isOpen, onClose, windows, onWindowSelect }) => {
+    const { t } = useTranslation();
+
     if (!isOpen) return null;
 
     return (
@@ -39,7 +49,7 @@ const StartMenu = ({ isOpen, onClose, windows, onWindowSelect }) => {
                             {Object.entries(windows).map(([id, window]) => (
                                 <MenuItem
                                     key={id}
-                                    title={window.title}
+                                    title={t(`windows.${id}.title`)}
                                     onClick={() => {
                                         onWindowSelect(id);
                                         onClose();
@@ -50,7 +60,7 @@ const StartMenu = ({ isOpen, onClose, windows, onWindowSelect }) => {
                             <div className="my-1 border-t border-win98-window-border-dark border-b border-white" />
 
                             <MenuItem
-                                title="Fermer"
+                                title={t('menu.close')}
                                 className="font-bold"
                                 onClick={() => window.close()}
                             />

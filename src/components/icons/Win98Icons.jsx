@@ -24,6 +24,24 @@ export const AboutIcon = () => (
     </svg>
 );
 
+export const ProjectsIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
+        <rect width="16" height="16" fill="#FFF8DC"/>
+        <rect x="2" y="2" width="12" height="2" fill="#000080"/>
+        <rect x="2" y="6" width="12" height="1" fill="#000080"/>
+        <rect x="2" y="9" width="12" height="1" fill="#000080"/>
+        <rect x="2" y="12" width="8" height="1" fill="#000080"/>
+    </svg>
+);
+
+export const ExperienceIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
+        <rect width="16" height="16" fill="#F0F0F0"/>
+        <rect x="3" y="3" width="10" height="10" fill="#4169E1"/>
+        <path d="M5,8 L11,8 M8,5 L8,11" stroke="white" strokeWidth="1.5"/>
+    </svg>
+);
+
 export const WindowControls = {
     Close: () => (
         <svg width="16" height="14" viewBox="0 0 16 14" className="inline-block">
