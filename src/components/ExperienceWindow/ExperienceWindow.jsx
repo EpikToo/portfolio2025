@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const SectionTitle = ({ children }) => (
-    <div className="bg-win98-window-title text-white px-2 py-1 mb-2">
+const SectionTitle = ({ children, color = "bg-blue-600" }) => (
+    <div className={`${color} text-white px-2 py-1 mb-2 rounded-sm`}>
         <h2 className="text-lg font-bold">{children}</h2>
     </div>
 );
@@ -11,9 +11,9 @@ const TimelineItem = ({ content, isCurrent }) => {
     const parts = content.split('->');
 
     return (
-        <div className="mb-4 pb-2 border-b border-gray-200 last:border-0">
+        <div className="mb-4 pb-2 border-b border-gray-200 last:border-0 hover:bg-gray-50 transition-colors p-2">
             <div className="flex flex-col sm:flex-row">
-                <div className="sm:w-1/3 font-bold text-sm mb-1 sm:mb-0 text-win98-window-title">
+                <div className="sm:w-1/3 font-bold text-sm mb-1 sm:mb-0 text-blue-600">
                     {parts[0].trim()}
                 </div>
                 <div className="sm:w-2/3 text-sm">
@@ -33,46 +33,42 @@ const ExperienceWindow = () => {
     const { t } = useTranslation();
 
     return (
-        <div className="h-full overflow-auto bg-gray-200 p-4">
-            <div className="bg-win98-button-face border-2 border-white shadow-win98-window mb-4">
-                <div className="border-2 border-win98-window-border-dark">
-                    <SectionTitle>{t('about.experiencetitle')}</SectionTitle>
+        <div className="h-full overflow-auto bg-win98-button-face p-4">
+            <div className="bg-white border-2 border-win98-window-border-dark mb-4 hover:shadow-lg transition-shadow">
+                <SectionTitle color="bg-green-600">{t('about.experiencetitle')}</SectionTitle>
 
-                    <div className="p-4 bg-white">
-                        <TimelineItem
-                            content={t('about.experiencecontent1')}
-                            isCurrent={false}
-                        />
-                        <TimelineItem
-                            content={t('about.experiencecontent2')}
-                            isCurrent={false}
-                        />
-                        <TimelineItem
-                            content={t('about.experiencecontent3')}
-                            isCurrent={true}
-                        />
-                        <TimelineItem
-                            content={t('about.experiencecontent4')}
-                            isCurrent={false}
-                        />
-                    </div>
+                <div className="p-4">
+                    <TimelineItem
+                        content={t('about.experiencecontent1')}
+                        isCurrent={false}
+                    />
+                    <TimelineItem
+                        content={t('about.experiencecontent2')}
+                        isCurrent={false}
+                    />
+                    <TimelineItem
+                        content={t('about.experiencecontent3')}
+                        isCurrent={true}
+                    />
+                    <TimelineItem
+                        content={t('about.experiencecontent4')}
+                        isCurrent={false}
+                    />
                 </div>
             </div>
 
-            <div className="bg-win98-button-face border-2 border-white shadow-win98-window">
-                <div className="border-2 border-win98-window-border-dark">
-                    <SectionTitle>{t('about.studiestitle')}</SectionTitle>
+            <div className="bg-white border-2 border-win98-window-border-dark hover:shadow-lg transition-shadow">
+                <SectionTitle color="bg-purple-600">{t('about.studiestitle')}</SectionTitle>
 
-                    <div className="p-4 bg-white">
-                        <TimelineItem
-                            content={t('about.studiescontent1')}
-                            isCurrent={true}
-                        />
-                        <TimelineItem
-                            content={t('about.studiescontent2')}
-                            isCurrent={false}
-                        />
-                    </div>
+                <div className="p-4">
+                    <TimelineItem
+                        content={t('about.studiescontent1')}
+                        isCurrent={true}
+                    />
+                    <TimelineItem
+                        content={t('about.studiescontent2')}
+                        isCurrent={false}
+                    />
                 </div>
             </div>
         </div>

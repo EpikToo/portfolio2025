@@ -16,8 +16,8 @@ const AppContent = () => {
     const [isBooting, setIsBooting] = useState(true);
     const [windows, setWindows] = useState({
         terminal: {
-            isOpen: true,
-            isMinimized: true,  // Terminal minimized by default
+            isOpen: false, // Terminal closed by default
+            isMinimized: false,
             isActive: false,
             title: t('windows.terminal.title')
         },
@@ -28,7 +28,7 @@ const AppContent = () => {
             title: t('windows.about.title')
         },
         projects: {
-            isOpen: false,  // Projects closed by default - CHANGED THIS
+            isOpen: false,  // Projects closed by default
             isMinimized: false,
             isActive: false,
             title: t('windows.projects.title')
@@ -156,12 +156,12 @@ const AppContent = () => {
 
     // Calculate positions for each window
     const getWindowPosition = (index) => {
-        // Predefined positions for each window type with more spacing
+        // Predefined positions for each window type
         const positions = [
-            { x: 50, y: 50 },     // Terminal
-            { x: 150, y: 70 },    // About - ADJUSTED
-            { x: 250, y: 150 },   // Projects - ADJUSTED
-            { x: 100, y: 180 }    // Experience - ADJUSTED
+            { x: 50, y: 50 },    // Terminal
+            { x: 120, y: 40 },   // About
+            { x: 180, y: 100 },  // Projects
+            { x: 80, y: 120 }    // Experience
         ];
 
         // If index is in the array, return its predefined position

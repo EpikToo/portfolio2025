@@ -44,8 +44,8 @@ export const ExperienceIcon = () => (
 
 export const WindowControls = {
     Close: () => (
-        <svg width="16" height="14" viewBox="0 0 16 14" className="inline-block">
-            <path d="M0,0 L16,14 M0,14 L16,0" stroke="black" strokeWidth="2"/>
+        <svg width="10" height="10" viewBox="0 0 10 10" className="inline-block">
+            <path d="M1,1 L9,9 M1,9 L9,1" stroke="black" strokeWidth="1.5"/>
         </svg>
     ),
     Minimize: () => (
