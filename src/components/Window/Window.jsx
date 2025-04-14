@@ -25,12 +25,46 @@ const Window = ({
     const [isMaximized, setIsMaximized] = useState(false);
     const [preMaximizeState, setPreMaximizeState] = useState(null);
     const windowRef = useRef(null);
+    const contentRef = useRef(null);
 
     useEffect(() => {
         const initialZIndex = registerWindow(windowId);
         setZIndex(initialZIndex);
+
+        // Ajuster la position si la fenêtre dépasse l'écran
+        adjustWindowPosition();
+
         return () => unregisterWindow(windowId);
     }, []);
+
+    // Ajuster la position de la fenêtre pour qu'elle soit toujours visible
+    const adjustWindowPosition = () => {
+        if (!windowRef.current) return;
+
+        const parent = windowRef.current.parentElement;
+        if (!parent) return;
+
+        const parentRect = parent.getBoundingClientRect();
+        let newPos = { ...position };
+
+        // Garder au moins 60px visibles sur l'axe X
+        if (newPos.x + 60 > parentRect.width) {
+            newPos.x = parentRect.width - 120;
+        }
+
+        // Garder au moins 60px visibles sur l'axe Y
+        if (newPos.y + 60 > parentRect.height) {
+            newPos.y = parentRect.height - 120;
+        }
+
+        // S'assurer que la fenêtre ne sort pas hors de l'écran à gauche ou en haut
+        if (newPos.x < 0) newPos.x = 0;
+        if (newPos.y < 0) newPos.y = 0;
+
+        if (newPos.x !== position.x || newPos.y !== position.y) {
+            setPosition(newPos);
+        }
+    };
 
     // Fonctions pour la gestion de la fenêtre
     const saveCurrentState = () => ({
@@ -101,8 +135,9 @@ const Window = ({
             let newX = e.clientX - dragOffset.x;
             let newY = e.clientY - dragOffset.y;
 
-            newX = Math.max(0, Math.min(newX, parentRect.width - windowRect.width));
-            newY = Math.max(0, Math.min(newY, parentRect.height - windowRect.height));
+            // S'assurer que la barre de titre reste visible
+            newX = Math.max(-windowRect.width + 100, Math.min(newX, parentRect.width - 50));
+            newY = Math.max(0, Math.min(newY, parentRect.height - 30));
 
             setPosition({ x: newX, y: newY });
         }
@@ -190,7 +225,7 @@ const Window = ({
             }}
             onMouseDown={handleWindowClick}
         >
-            <div className="bg-win98-button-face border-2 border-white h-full">
+            <div className="bg-win98-button-face border-2 border-white h-full w-full">
                 <div className="border-2 border-win98-window-border-dark h-full flex flex-col">
                     {/* Barre de titre */}
                     <div
@@ -225,7 +260,7 @@ const Window = ({
                     </div>
 
                     {/* Contenu de la fenêtre */}
-                    <div className="flex-1 relative">
+                    <div ref={contentRef} className="flex-1 overflow-hidden relative">
                         {children}
                     </div>
 
@@ -247,6 +282,22 @@ const Window = ({
                             <div
                                 className="resize-handle absolute top-0 left-0 w-3 h-3 cursor-nw-resize"
                                 onMouseDown={(e) => handleResizeStart(e, 'nw')}
+                            />
+                            <div
+                                className="resize-handle absolute top-0 w-full h-3 cursor-n-resize"
+                                onMouseDown={(e) => handleResizeStart(e, 'n')}
+                            />
+                            <div
+                                className="resize-handle absolute bottom-0 w-full h-3 cursor-s-resize"
+                                onMouseDown={(e) => handleResizeStart(e, 's')}
+                            />
+                            <div
+                                className="resize-handle absolute left-0 h-full w-3 cursor-w-resize"
+                                onMouseDown={(e) => handleResizeStart(e, 'w')}
+                            />
+                            <div
+                                className="resize-handle absolute right-0 h-full w-3 cursor-e-resize"
+                                onMouseDown={(e) => handleResizeStart(e, 'e')}
                             />
                         </>
                     )}

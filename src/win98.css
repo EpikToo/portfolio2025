@@ -1,0 +1,121 @@
+/* Styles Windows 98 améliorés */
+
+/* Polices de caractères */
+@font-face {
+    font-family: 'MS Sans Serif';
+    src: url('https://unpkg.com/98.css@0.1.17/dist/MS-Sans-Serif.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MS Sans Serif';
+    src: url('https://unpkg.com/98.css@0.1.17/dist/MS-Sans-Serif-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Style général */
+body {
+    font-family: 'MS Sans Serif', sans-serif;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+}
+
+/* Améliorations pour les fenêtres */
+.win98-window {
+    transition: box-shadow 0.3s ease;
+}
+
+.win98-window:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet de clic amélioré */
+.win98-button {
+    transition: transform 0.05s ease;
+}
+
+.win98-button:active {
+    transform: scale(0.98);
+}
+
+/* Amélioration des bordures */
+.win98-border {
+    image-rendering: pixelated;
+}
+
+/* Animation pour les fenêtres qui s'ouvrent */
+@keyframes win98-open {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.win98-open-animation {
+    animation: win98-open 0.2s ease-out forwards;
+}
+
+/* Animation pour les fenêtres qui se ferment */
+@keyframes win98-close {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+.win98-close-animation {
+    animation: win98-close 0.2s ease-in forwards;
+}
+
+/* Curseurs spécifiques Windows 98 */
+.cursor-win98-default {
+    cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVDhPY2CgEDBC6f8UYqoHQ9wApkkBTFCabEDVmJkYGKgaGDQxFP8j++k/FgUEAdVjhupmHvjAoDoAAOG7Pw3tIaFBAAAAAElFTkSuQmCC'), auto;
+}
+
+.cursor-win98-text {
+    cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVDhPYwCC/1CaBBg9wAjF/ynEVA+GuAFMkwKYoDTZgKoxMzEwUDUwcJqDGS3/kYMJrwIqAKrHDADxGyMNkuL3WAAAAABJRU5ErkJggg=='), auto;
+}
+
+/* Amélioration des sélections */
+::selection {
+    background-color: #000080;
+    color: white;
+}
+
+/* Scrollbars style Windows 98 */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: #c0c0c0;
+    border: 1px solid #808080;
+    border-left: 1px solid #dfdfdf;
+    border-top: 1px solid #dfdfdf;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+}
+
+::-webkit-scrollbar-button {
+    display: block;
+    height: 16px;
+    width: 16px;
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #dfdfdf #808080 #808080 #dfdfdf;
+}

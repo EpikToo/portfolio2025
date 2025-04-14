@@ -89,6 +89,16 @@ const Terminal = ({ onCommandExecuted }) => {
             }
         } else if (cmd === 'close') {
             return ["To close a window, use the X button in the top-right corner."];
+        } else if (cmd === 'matrix') {
+            // Petit easter egg
+            return [
+                "Wake up, Neo...",
+                "The Matrix has you...",
+                "Follow the white rabbit.",
+                "Knock, knock, Neo."
+            ];
+        } else if (cmd === 'hello' || cmd === 'hi') {
+            return ["Hello! Type 'help' to see available commands."];
         } else if (cmd === '') {
             return [];
         } else {
@@ -116,9 +126,18 @@ const Terminal = ({ onCommandExecuted }) => {
     return (
         <div
             ref={terminalRef}
-            className="bg-black p-4 font-mono text-sm h-full overflow-y-auto"
+            className="bg-black p-4 font-mono text-sm h-full overflow-y-auto border-2 border-gray-800"
             onClick={() => inputRef.current?.focus()}
         >
+            {/* En-tête du terminal */}
+            <div className="mb-4 text-center text-green-500 font-bold">
+                ╔══════════════════════════════════════════════════════════╗
+                <br/>
+                ║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Portfolio Command Line Interface - Type 'help'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;║
+                <br/>
+                ╚══════════════════════════════════════════════════════════╝
+            </div>
+
             {/* Historique des commandes */}
             {history.map((line, i) => (
                 <div key={i} className="text-green-500 whitespace-pre-wrap mb-1">
@@ -131,7 +150,7 @@ const Terminal = ({ onCommandExecuted }) => {
                 <span>C:\&gt;&nbsp;</span>
                 <span>{currentCommand}</span>
                 <span
-                    className={`w-2 ml-0.5 ${cursorVisible ? 'bg-green-500' : 'bg-transparent'}`}
+                    className={`w-2 ml-0.5 h-5 ${cursorVisible ? 'bg-green-500' : 'bg-transparent'}`}
                 >
                     &nbsp;
                 </span>

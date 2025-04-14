@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './i18n';
+import './win98.css'; // Importation des styles Windows 98 améliorés
 import Window from './components/Window/Window';
 import Terminal from './components/Terminal/Terminal';
 import AboutWindow from './components/AboutWindow/AboutWindow';
@@ -157,8 +158,21 @@ const AppContent = () => {
         return <BootAnimation onBootComplete={handleBootComplete} />;
     }
 
+    // Calculer des positions décalées pour les fenêtres
+    const getWindowPosition = (index) => {
+        const baseX = 50;
+        const baseY = 50;
+        const offsetX = 30;
+        const offsetY = 20;
+
+        return {
+            x: baseX + (index * offsetX),
+            y: baseY + (index * offsetY)
+        };
+    };
+
     return (
-        <div className="h-screen flex flex-col overflow-hidden bg-win98-desktop">
+        <div className="h-screen flex flex-col overflow-hidden bg-win98-desktop cursor-win98-default">
             <main className="flex-1 relative">
                 {/* Terminal Window */}
                 {windows.terminal.isOpen && (
@@ -167,8 +181,9 @@ const AppContent = () => {
                         onClose={() => handleClose('terminal')}
                         onMinimize={() => handleMinimize('terminal')}
                         isMinimized={windows.terminal.isMinimized}
-                        defaultPosition={{ x: 50, y: 50 }}
+                        defaultPosition={getWindowPosition(0)}
                         defaultSize={{ width: 600, height: 400 }}
+                        className="win98-window"
                     >
                         <Terminal onCommandExecuted={handleTerminalCommand} />
                     </Window>
@@ -181,8 +196,9 @@ const AppContent = () => {
                         onClose={() => handleClose('about')}
                         onMinimize={() => handleMinimize('about')}
                         isMinimized={windows.about.isMinimized}
-                        defaultPosition={{ x: 100, y: 80 }}
-                        defaultSize={{ width: 700, height: 500 }}
+                        defaultPosition={getWindowPosition(1)}
+                        defaultSize={{ width: 750, height: 550 }}
+                        className="win98-window"
                     >
                         <AboutWindow />
                     </Window>
@@ -195,8 +211,9 @@ const AppContent = () => {
                         onClose={() => handleClose('projects')}
                         onMinimize={() => handleMinimize('projects')}
                         isMinimized={windows.projects.isMinimized}
-                        defaultPosition={{ x: 150, y: 100 }}
-                        defaultSize={{ width: 650, height: 500 }}
+                        defaultPosition={getWindowPosition(2)}
+                        defaultSize={{ width: 700, height: 550 }}
+                        className="win98-window"
                     >
                         <ProjectsWindow />
                     </Window>
@@ -209,8 +226,9 @@ const AppContent = () => {
                         onClose={() => handleClose('experience')}
                         onMinimize={() => handleMinimize('experience')}
                         isMinimized={windows.experience.isMinimized}
-                        defaultPosition={{ x: 200, y: 120 }}
-                        defaultSize={{ width: 650, height: 480 }}
+                        defaultPosition={getWindowPosition(3)}
+                        defaultSize={{ width: 700, height: 500 }}
+                        className="win98-window"
                     >
                         <ExperienceWindow />
                     </Window>
