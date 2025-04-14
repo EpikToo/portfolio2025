@@ -126,31 +126,29 @@ const Terminal = ({ onCommandExecuted }) => {
     return (
         <div
             ref={terminalRef}
-            className="bg-black p-4 font-mono text-sm h-full overflow-y-auto border-2 border-gray-800"
+            className="bg-black p-2 md:p-4 font-mono text-xs md:text-sm h-full overflow-y-auto border-2 border-gray-800"
             onClick={() => inputRef.current?.focus()}
         >
-            {/* Terminal header */}
-            <div className="mb-4 text-center text-green-500 font-bold">
-                ╔══════════════════════════════════════════════════════════╗
-                <br/>
-                ║&nbsp;&nbsp;&nbsp;&nbsp;{t('terminal.header')}&nbsp;&nbsp;&nbsp;&nbsp;║
-                <br/>
-                ╚══════════════════════════════════════════════════════════╝
+            {/* Terminal header - responsive version */}
+            <div className="mb-3 md:mb-4 text-center text-green-500 font-bold text-xs md:text-sm">
+                <div className="border border-green-500 p-1 md:p-2 inline-block">
+                    {t('terminal.header')}
+                </div>
             </div>
 
             {/* Command history */}
             {history.map((line, i) => (
-                <div key={i} className="text-green-500 whitespace-pre-wrap mb-1">
+                <div key={i} className="text-green-500 whitespace-pre-wrap mb-1 text-xs md:text-sm break-all">
                     {line}
                 </div>
             ))}
 
             {/* Active command line */}
-            <div className="text-green-500 flex">
+            <div className="text-green-500 flex text-xs md:text-sm break-all">
                 <span>C:\&gt;&nbsp;</span>
                 <span>{currentCommand}</span>
                 <span
-                    className={`w-2 ml-0.5 h-5 ${cursorVisible ? 'bg-green-500' : 'bg-transparent'}`}
+                    className={`w-1.5 md:w-2 ml-0.5 h-4 md:h-5 ${cursorVisible ? 'bg-green-500' : 'bg-transparent'}`}
                 >
                     &nbsp;
                 </span>

@@ -24,21 +24,21 @@ const ProjectCard = ({ content, index }) => {
     const bgColor = colors[index % colors.length];
 
     return (
-        <div className="mb-4 overflow-hidden transition-transform hover:scale-[1.01]">
+        <div className="mb-3 md:mb-4 overflow-hidden transition-transform hover:scale-[1.01]">
             <div className="bg-gray-200 border-2 border-win98-button-face shadow-lg">
                 <div className="border-2 border-win98-window-border-dark">
-                    <div className={`${bgColor} text-white px-2 py-1 font-bold text-sm`}>
+                    <div className={`${bgColor} text-white px-2 py-1 font-bold text-xs md:text-sm overflow-hidden text-ellipsis whitespace-nowrap`}>
                         {title}
                     </div>
-                    <div className="bg-white p-3">
-                        <p className="text-sm mb-3">{cleanDescription}</p>
+                    <div className="bg-white p-2 md:p-3">
+                        <p className="text-xs md:text-sm mb-2 md:mb-3 break-words">{cleanDescription}</p>
 
                         {technologies.length > 0 && (
                             <div className="flex flex-wrap gap-1">
                                 {technologies.map((tech, index) => (
                                     <span
                                         key={index}
-                                        className="text-xs px-2 py-0.5 bg-gray-100 border border-win98-window-border-dark shadow-win98-btn hover:bg-gray-200 transition-colors"
+                                        className="text-xs px-1 md:px-2 py-0.5 bg-gray-100 border border-win98-window-border-dark shadow-win98-btn hover:bg-gray-200 transition-colors whitespace-nowrap"
                                     >
                                         {tech}
                                     </span>
@@ -71,18 +71,18 @@ const ProjectsWindow = () => {
 
     return (
         <div className="h-full flex flex-col bg-win98-button-face">
-            <div className="p-4 border-b border-gray-300 bg-white">
+            <div className="p-2 md:p-4 border-b border-gray-300 bg-white">
                 <div className="shadow-win98-btn bg-white flex items-center">
                     <input
                         type="text"
-                        className="w-full border border-win98-window-border-dark px-2 py-1 focus:outline-none text-sm"
+                        className="w-full border border-win98-window-border-dark px-2 py-1 focus:outline-none text-xs md:text-sm"
                         placeholder={t('projects.search_placeholder') || "Search projects..."}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     {searchQuery && (
                         <button
-                            className="px-2 py-1 border-l border-win98-window-border-dark text-sm hover:bg-gray-200 transition-colors"
+                            className="px-2 py-1 border-l border-win98-window-border-dark text-xs md:text-sm hover:bg-gray-200 transition-colors"
                             onClick={() => setSearchQuery('')}
                         >
                             X
@@ -91,8 +91,8 @@ const ProjectsWindow = () => {
                 </div>
             </div>
 
-            <div className="flex-1 overflow-auto p-4">
-                <h2 className="text-lg font-bold mb-4 bg-blue-600 text-white px-2 py-1 rounded-sm">
+            <div className="flex-1 overflow-auto p-2 md:p-4">
+                <h2 className="text-base md:text-lg font-bold mb-3 md:mb-4 bg-blue-600 text-white px-2 py-1 rounded-sm truncate">
                     {t('about.projectstitle')}
                 </h2>
 
@@ -103,8 +103,8 @@ const ProjectsWindow = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center p-4 text-gray-500 bg-white border-2 border-win98-window-border-dark shadow-lg">
-                        {t('projects.no_results') || "No projects match your search."}
+                    <div className="text-center p-3 md:p-4 text-gray-500 bg-white border-2 border-win98-window-border-dark shadow-lg">
+                        <p className="text-xs md:text-sm">{t('projects.no_results') || "No projects match your search."}</p>
                     </div>
                 )}
             </div>

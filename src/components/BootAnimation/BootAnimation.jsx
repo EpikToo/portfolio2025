@@ -66,8 +66,8 @@ const BootAnimation = ({ onBootComplete }) => {
                                     </svg>
                                 </div>
                                 <div className="text-left">
-                                    <h1 className="text-4xl font-bold">Windows 98</h1>
-                                    <p className="text-sm">Portfolio by Florian Savalle</p>
+                                    <h1 className="text-4xl font-bold">Portfolio</h1>
+                                    <p className="text-sm">By Florian Savalle</p>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@ const BootAnimation = ({ onBootComplete }) => {
                             />
                         </div>
                         <p className="text-white mt-2">
-                            {stage === 2 ? 'Starting Windows 98...' : 'Welcome to Windows 98'}
+                            {stage === 2 ? 'Booting the matrix...' : 'Welcome to my Portfolio!'}
                         </p>
                         {stage === 2 && <LoadingBlocks />}
                     </div>

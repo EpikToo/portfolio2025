@@ -35,8 +35,28 @@ const Window = ({
         // Adjust position if window extends beyond screen
         adjustWindowPosition();
 
-        return () => unregisterWindow(windowId);
-    }, []);
+        // Ensure window is properly positioned on window resize
+        const handleWindowResize = () => {
+            adjustWindowPosition();
+
+            // Handle maximized windows on resize
+            if (isMaximized && windowRef.current) {
+                const parent = windowRef.current.parentElement;
+                if (parent) {
+                    setSize({
+                        width: parent.clientWidth,
+                        height: parent.clientHeight - 40
+                    });
+                }
+            }
+        };
+
+        window.addEventListener('resize', handleWindowResize);
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+            unregisterWindow(windowId);
+        };
+    }, [isMaximized]);
 
     // Adjust window position to keep it visible
     const adjustWindowPosition = () => {
@@ -50,12 +70,12 @@ const Window = ({
 
         // Keep at least 60px visible on X axis
         if (newPos.x + 60 > parentRect.width) {
-            newPos.x = parentRect.width - 120;
+            newPos.x = Math.max(0, parentRect.width - 120);
         }
 
         // Keep at least 60px visible on Y axis
         if (newPos.y + 60 > parentRect.height) {
-            newPos.y = parentRect.height - 120;
+            newPos.y = Math.max(0, parentRect.height - 120);
         }
 
         // Ensure window doesn't go off-screen to the left or top
@@ -155,34 +175,34 @@ const Window = ({
             let newY = position.y;
 
             if (resizeDirection.includes('e')) {
-                newWidth = Math.max(200, Math.min(
+                newWidth = Math.max(250, Math.min(
                     resizeStart.width + deltaX,
                     parentRect.width - position.x
                 ));
             }
             if (resizeDirection.includes('s')) {
-                newHeight = Math.max(150, Math.min(
+                newHeight = Math.max(200, Math.min(
                     resizeStart.height + deltaY,
                     parentRect.height - position.y
                 ));
             }
             if (resizeDirection.includes('w')) {
                 const possibleWidth = resizeStart.width - deltaX;
-                if (possibleWidth >= 200) {
+                if (possibleWidth >= 250) {
                     newWidth = possibleWidth;
                     newX = Math.min(
                         position.x + deltaX,
-                        position.x + size.width - 200
+                        position.x + size.width - 250
                     );
                 }
             }
             if (resizeDirection.includes('n')) {
                 const possibleHeight = resizeStart.height - deltaY;
-                if (possibleHeight >= 150) {
+                if (possibleHeight >= 200) {
                     newHeight = possibleHeight;
                     newY = Math.min(
                         position.y + deltaY,
-                        position.y + size.height - 150
+                        position.y + size.height - 200
                     );
                 }
             }
@@ -209,6 +229,53 @@ const Window = ({
         };
     }, [isDragging, isResizing]);
 
+    // Touch event handling for mobile devices
+    const handleTouchStart = (e) => {
+        if (isMaximized) return;
+        if (!e.target.closest('.window-title-bar')) return;
+
+        const touch = e.touches[0];
+        const rect = windowRef.current.getBoundingClientRect();
+        setDragOffset({
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top
+        });
+        setIsDragging(true);
+    };
+
+    const handleTouchMove = (e) => {
+        if (!isDragging) return;
+
+        const touch = e.touches[0];
+        const parentRect = windowRef.current.parentElement.getBoundingClientRect();
+        const windowRect = windowRef.current.getBoundingClientRect();
+
+        let newX = touch.clientX - dragOffset.x;
+        let newY = touch.clientY - dragOffset.y;
+
+        // Ensure title bar remains visible
+        newX = Math.max(-windowRect.width + 100, Math.min(newX, parentRect.width - 50));
+        newY = Math.max(0, Math.min(newY, parentRect.height - 30));
+
+        setPosition({ x: newX, y: newY });
+        e.preventDefault(); // Prevent scrolling while dragging
+    };
+
+    const handleTouchEnd = () => {
+        setIsDragging(false);
+    };
+
+    useEffect(() => {
+        if (isDragging) {
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
+            document.addEventListener('touchend', handleTouchEnd);
+        }
+        return () => {
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [isDragging]);
+
     if (isMinimized) {
         return null;
     }
@@ -229,32 +296,33 @@ const Window = ({
         >
             <div className="bg-win98-button-face border-2 border-white h-full w-full shadow-win98-window">
                 <div className="border-2 border-win98-window-border-dark h-full flex flex-col">
-                    {/* Title bar */}
+                    {/* Title bar - Darker shade of blue for active windows */}
                     <div
                         className={`window-title-bar px-2 py-1 flex justify-between items-center cursor-grab select-none
-                            ${isActive ? 'bg-win98-window-title text-white' : 'bg-gray-400 text-gray-200'}`}
+                            ${isActive ? 'bg-[#000055] text-white' : 'bg-gray-500 text-gray-200'}`}
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                         onDoubleClick={handleTitleBarDoubleClick}
                     >
-                        <span className="font-bold text-sm">
+                        <span className="font-bold text-xs md:text-sm truncate max-w-[calc(100%-60px)]">
                             {title}
                         </span>
                         {/* Control buttons */}
                         <div className="flex gap-1">
                             <button
-                                className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
+                                className="min-w-[18px] h-[18px] md:min-w-[20px] md:h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
                                 onClick={onMinimize}
                             >
                                 <WindowControls.Minimize />
                             </button>
                             <button
-                                className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
+                                className="min-w-[18px] h-[18px] md:min-w-[20px] md:h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
                                 onClick={toggleMaximize}
                             >
                                 <WindowControls.Maximize />
                             </button>
                             <button
-                                className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
+                                className="min-w-[18px] h-[18px] md:min-w-[20px] md:h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
                                 onClick={onClose}
                             >
                                 <WindowControls.Close />
@@ -271,35 +339,35 @@ const Window = ({
                     {!isMaximized && (
                         <>
                             <div
-                                className="resize-handle absolute top-0 right-0 w-3 h-3 cursor-ne-resize"
+                                className="resize-handle absolute top-0 right-0 w-3 h-3 cursor-ne-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'ne')}
                             />
                             <div
-                                className="resize-handle absolute bottom-0 right-0 w-3 h-3 cursor-se-resize"
+                                className="resize-handle absolute bottom-0 right-0 w-3 h-3 cursor-se-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'se')}
                             />
                             <div
-                                className="resize-handle absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize"
+                                className="resize-handle absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'sw')}
                             />
                             <div
-                                className="resize-handle absolute top-0 left-0 w-3 h-3 cursor-nw-resize"
+                                className="resize-handle absolute top-0 left-0 w-3 h-3 cursor-nw-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'nw')}
                             />
                             <div
-                                className="resize-handle absolute top-0 w-full h-3 cursor-n-resize"
+                                className="resize-handle absolute top-0 w-full h-3 cursor-n-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'n')}
                             />
                             <div
-                                className="resize-handle absolute bottom-0 w-full h-3 cursor-s-resize"
+                                className="resize-handle absolute bottom-0 w-full h-3 cursor-s-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 's')}
                             />
                             <div
-                                className="resize-handle absolute left-0 h-full w-3 cursor-w-resize"
+                                className="resize-handle absolute left-0 h-full w-3 cursor-w-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'w')}
                             />
                             <div
-                                className="resize-handle absolute right-0 h-full w-3 cursor-e-resize"
+                                className="resize-handle absolute right-0 h-full w-3 cursor-e-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'e')}
                             />
                         </>
