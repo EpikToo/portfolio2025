@@ -31,13 +31,13 @@ const Window = ({
         const initialZIndex = registerWindow(windowId);
         setZIndex(initialZIndex);
 
-        // Ajuster la position si la fenêtre dépasse l'écran
+        // Adjust position if window extends beyond screen
         adjustWindowPosition();
 
         return () => unregisterWindow(windowId);
     }, []);
 
-    // Ajuster la position de la fenêtre pour qu'elle soit toujours visible
+    // Adjust window position to keep it visible
     const adjustWindowPosition = () => {
         if (!windowRef.current) return;
 
@@ -47,17 +47,17 @@ const Window = ({
         const parentRect = parent.getBoundingClientRect();
         let newPos = { ...position };
 
-        // Garder au moins 60px visibles sur l'axe X
+        // Keep at least 60px visible on X axis
         if (newPos.x + 60 > parentRect.width) {
             newPos.x = parentRect.width - 120;
         }
 
-        // Garder au moins 60px visibles sur l'axe Y
+        // Keep at least 60px visible on Y axis
         if (newPos.y + 60 > parentRect.height) {
             newPos.y = parentRect.height - 120;
         }
 
-        // S'assurer que la fenêtre ne sort pas hors de l'écran à gauche ou en haut
+        // Ensure window doesn't go off-screen to the left or top
         if (newPos.x < 0) newPos.x = 0;
         if (newPos.y < 0) newPos.y = 0;
 
@@ -66,7 +66,7 @@ const Window = ({
         }
     };
 
-    // Fonctions pour la gestion de la fenêtre
+    // Window management functions
     const saveCurrentState = () => ({
         position: { ...position },
         size: { ...size }
@@ -99,7 +99,7 @@ const Window = ({
         toggleMaximize();
     };
 
-    // Gestion du drag & drop
+    // Drag & drop handling
     const handleMouseDown = (e) => {
         if (isMaximized) return;
         if (e.target.closest('.resize-handle')) return;
@@ -135,7 +135,7 @@ const Window = ({
             let newX = e.clientX - dragOffset.x;
             let newY = e.clientY - dragOffset.y;
 
-            // S'assurer que la barre de titre reste visible
+            // Ensure title bar remains visible
             newX = Math.max(-windowRect.width + 100, Math.min(newX, parentRect.width - 50));
             newY = Math.max(0, Math.min(newY, parentRect.height - 30));
 
@@ -227,7 +227,7 @@ const Window = ({
         >
             <div className="bg-win98-button-face border-2 border-white h-full w-full">
                 <div className="border-2 border-win98-window-border-dark h-full flex flex-col">
-                    {/* Barre de titre */}
+                    {/* Title bar */}
                     <div
                         className="window-title-bar bg-win98-window-title px-2 py-1 flex justify-between items-center cursor-grab select-none"
                         onMouseDown={handleMouseDown}
@@ -236,7 +236,7 @@ const Window = ({
                         <span className="text-win98-window-title-text font-bold text-sm">
                             {title}
                         </span>
-                        {/* Boutons de contrôle */}
+                        {/* Control buttons */}
                         <div className="flex gap-1">
                             <button
                                 className="min-w-[20px] h-[20px] px-1 shadow-win98-btn hover:shadow-win98-btn-pressed bg-win98-button-face flex items-center justify-center"
@@ -259,12 +259,12 @@ const Window = ({
                         </div>
                     </div>
 
-                    {/* Contenu de la fenêtre */}
+                    {/* Window content */}
                     <div ref={contentRef} className="flex-1 overflow-hidden relative">
                         {children}
                     </div>
 
-                    {/* Poignées de redimensionnement */}
+                    {/* Resize handles */}
                     {!isMaximized && (
                         <>
                             <div

@@ -1,6 +1,6 @@
-/* Styles Windows 98 améliorés */
+/* Enhanced Windows 98 Styles */
 
-/* Polices de caractères */
+/* Fonts */
 @font-face {
     font-family: 'MS Sans Serif';
     src: url('https://unpkg.com/98.css@0.1.17/dist/MS-Sans-Serif.woff2') format('woff2');
@@ -15,14 +15,14 @@
     font-style: normal;
 }
 
-/* Style général */
+/* General style */
 body {
     font-family: 'MS Sans Serif', sans-serif;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: none;
 }
 
-/* Améliorations pour les fenêtres */
+/* Window improvements */
 .win98-window {
     transition: box-shadow 0.3s ease;
 }
@@ -31,7 +31,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Effet de clic amélioré */
+/* Enhanced click effect */
 .win98-button {
     transition: transform 0.05s ease;
 }
@@ -40,12 +40,12 @@ body {
     transform: scale(0.98);
 }
 
-/* Amélioration des bordures */
+/* Border improvements */
 .win98-border {
     image-rendering: pixelated;
 }
 
-/* Animation pour les fenêtres qui s'ouvrent */
+/* Animation for opening windows */
 @keyframes win98-open {
     from {
         transform: scale(0.8);
@@ -61,7 +61,7 @@ body {
     animation: win98-open 0.2s ease-out forwards;
 }
 
-/* Animation pour les fenêtres qui se ferment */
+/* Animation for closing windows */
 @keyframes win98-close {
     from {
         transform: scale(1);
@@ -77,7 +77,7 @@ body {
     animation: win98-close 0.2s ease-in forwards;
 }
 
-/* Curseurs spécifiques Windows 98 */
+/* Windows 98 specific cursors */
 .cursor-win98-default {
     cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVDhPY2CgEDBC6f8UYqoHQ9wApkkBTFCabEDVmJkYGKgaGDQxFP8j++k/FgUEAdVjhupmHvjAoDoAAOG7Pw3tIaFBAAAAAElFTkSuQmCC'), auto;
 }
@@ -86,13 +86,13 @@ body {
     cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVDhPYwCC/1CaBBg9wAjF/ynEVA+GuAFMkwKYoDTZgKoxMzEwUDUwcJqDGS3/kYMJrwIqAKrHDADxGyMNkuL3WAAAAABJRU5ErkJggg=='), auto;
 }
 
-/* Amélioration des sélections */
+/* Selection improvements */
 ::selection {
     background-color: #000080;
     color: white;
 }
 
-/* Scrollbars style Windows 98 */
+/* Windows 98 style scrollbars */
 ::-webkit-scrollbar {
     width: 16px;
     height: 16px;

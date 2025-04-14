@@ -1,7 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-// Import supprimé pour éviter l'erreur
-// import profileImg from '../../assets/profile.jpg';
 
 const SectionTitle = ({ children }) => (
     <div className="bg-win98-window-title text-white px-2 py-1 mb-2">
@@ -15,15 +13,15 @@ const AboutWindow = () => {
     return (
         <div className="h-full overflow-auto bg-win98-button-face p-4">
             <div className="flex flex-col md:flex-row gap-4">
-                {/* Section profile */}
+                {/* Profile section */}
                 <div className="md:w-1/3 flex flex-col">
                     <div className="bg-white border-2 border-win98-window-border-dark p-4 mb-4">
                         <div className="w-40 h-40 mx-auto mb-4 border-2 border-win98-window-border-dark shadow-win98-btn overflow-hidden">
-                            {/* Placeholder pour l'image de profil */}
+                            {/* Placeholder for profile image */}
                             <div className="bg-gray-300 w-full h-full flex items-center justify-center">
                                 <span className="text-gray-600">Profile Image</span>
                             </div>
-                            {/* Quand tu auras l'image, tu pourras utiliser ce code :
+                            {/* When you have the image, you can use this code:
                             <img src={profileImg} alt="Florian Savalle" className="w-full h-full object-cover" />
                             */}
                         </div>
@@ -57,7 +55,7 @@ const AboutWindow = () => {
                     </div>
                 </div>
 
-                {/* Section informations */}
+                {/* Information section */}
                 <div className="md:w-2/3">
                     <div className="bg-white border-2 border-win98-window-border-dark mb-4">
                         <SectionTitle>{t('about.profiletitle')}</SectionTitle>

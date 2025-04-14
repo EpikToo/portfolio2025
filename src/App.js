@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './i18n';
-import './win98.css'; // Importation des styles Windows 98 améliorés
+import './win98.css'; // Import improved Windows 98 styles
 import Window from './components/Window/Window';
 import Terminal from './components/Terminal/Terminal';
 import AboutWindow from './components/AboutWindow/AboutWindow';
@@ -17,24 +17,24 @@ const AppContent = () => {
     const [windows, setWindows] = useState({
         terminal: {
             isOpen: true,
-            isMinimized: true,  // Terminal minimisé par défaut
+            isMinimized: true,  // Terminal minimized by default
             isActive: false,
             title: t('windows.terminal.title')
         },
         about: {
-            isOpen: true,  // About ouvert par défaut
+            isOpen: true,  // About opened by default
             isMinimized: false,
-            isActive: true,  // About actif par défaut
+            isActive: true,  // About active by default
             title: t('windows.about.title')
         },
         projects: {
-            isOpen: true,  // Projects ouvert par défaut
+            isOpen: true,  // Projects opened by default
             isMinimized: false,
             isActive: false,
             title: t('windows.projects.title')
         },
         experience: {
-            isOpen: false,  // Experience fermé par défaut (pour ne pas surcharger l'interface)
+            isOpen: false,  // Experience closed by default (to avoid cluttering the interface)
             isMinimized: false,
             isActive: false,
             title: t('windows.experience.title')
@@ -45,12 +45,12 @@ const AppContent = () => {
         setIsBooting(false);
     };
 
-    // Gestion des clics dans la barre des tâches
+    // Handle clicks in the taskbar
     const handleTaskbarClick = (windowId) => {
         setWindows(prev => {
             const newWindows = { ...prev };
 
-            // Si la fenêtre est minimisée, on la restaure
+            // If the window is minimized, restore it
             if (newWindows[windowId].isMinimized) {
                 Object.keys(newWindows).forEach(key => {
                     newWindows[key].isActive = false;
@@ -62,7 +62,7 @@ const AppContent = () => {
                     isActive: true
                 };
             }
-            // Si la fenêtre est déjà active, on la minimise
+            // If the window is already active, minimize it
             else if (newWindows[windowId].isActive) {
                 newWindows[windowId] = {
                     ...newWindows[windowId],
@@ -70,7 +70,7 @@ const AppContent = () => {
                     isActive: false
                 };
             }
-            // Sinon on l'active simplement
+            // Otherwise, simply activate it
             else {
                 Object.keys(newWindows).forEach(key => {
                     newWindows[key].isActive = false;
@@ -86,17 +86,17 @@ const AppContent = () => {
         });
     };
 
-    // Gestion des commandes du terminal
+    // Handle terminal commands
     const handleTerminalCommand = (command) => {
         setWindows(prev => {
             const newWindows = { ...prev };
 
-            // On désactive toutes les fenêtres
+            // Deactivate all windows
             Object.keys(newWindows).forEach(key => {
                 newWindows[key].isActive = false;
             });
 
-            // On ouvre/active la fenêtre demandée
+            // Open/activate the requested window
             if (newWindows[command]) {
                 newWindows[command] = {
                     ...newWindows[command],
@@ -110,16 +110,16 @@ const AppContent = () => {
         });
     };
 
-    // Gestion spécifique pour le menu démarrer
+    // Specific handling for the Start menu
     const handleStartMenuClick = (windowId) => {
         setWindows(prev => {
             const newWindows = { ...prev };
-            // On désactive toutes les fenêtres
+            // Deactivate all windows
             Object.keys(newWindows).forEach(key => {
                 newWindows[key].isActive = false;
             });
 
-            // On force l'ouverture de la fenêtre sélectionnée
+            // Force the opening of the selected window
             newWindows[windowId] = {
                 ...newWindows[windowId],
                 isOpen: true,
@@ -154,22 +154,31 @@ const AppContent = () => {
         }));
     };
 
+    // Calculate positions for each window
+    const getWindowPosition = (index) => {
+        // Predefined positions for each window type
+        const positions = [
+            { x: 50, y: 50 },    // Terminal
+            { x: 120, y: 40 },   // About
+            { x: 180, y: 100 },  // Projects
+            { x: 80, y: 120 }    // Experience
+        ];
+
+        // If index is in the array, return its predefined position
+        if (index < positions.length) {
+            return positions[index];
+        }
+
+        // Otherwise, calculate a random position but not too close to the edges
+        const randomX = Math.floor(Math.random() * 200) + 50;
+        const randomY = Math.floor(Math.random() * 150) + 50;
+
+        return { x: randomX, y: randomY };
+    };
+
     if (isBooting) {
         return <BootAnimation onBootComplete={handleBootComplete} />;
     }
-
-    // Calculer des positions décalées pour les fenêtres
-    const getWindowPosition = (index) => {
-        const baseX = 50;
-        const baseY = 50;
-        const offsetX = 30;
-        const offsetY = 20;
-
-        return {
-            x: baseX + (index * offsetX),
-            y: baseY + (index * offsetY)
-        };
-    };
 
     return (
         <div className="h-screen flex flex-col overflow-hidden bg-win98-desktop cursor-win98-default">

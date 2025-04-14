@@ -9,26 +9,26 @@ const Terminal = ({ onCommandExecuted }) => {
     const inputRef = useRef(null);
     const terminalRef = useRef(null);
 
-    // Reset l'historique quand la langue change
+    // Reset history when language changes
     useEffect(() => {
         setHistory([t('terminal.welcome')]);
     }, [t]);
 
-    // Effet pour le clignotement du curseur
+    // Effect for cursor blinking
     useEffect(() => {
         const interval = setInterval(() => {
             setCursorVisible(v => !v);
-        }, 530); // ~60bpm, comme les vrais terminaux
+        }, 530); // ~60bpm, like real terminals
 
         return () => clearInterval(interval);
     }, []);
 
-    // Focus automatique sur le terminal
+    // Auto-focus on terminal
     useEffect(() => {
         inputRef.current?.focus();
     }, []);
 
-    // Auto-scroll au bas du terminal
+    // Auto-scroll to bottom of terminal
     useEffect(() => {
         if (terminalRef.current) {
             terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
@@ -64,14 +64,14 @@ const Terminal = ({ onCommandExecuted }) => {
             return [`Opening experience window...`];
         } else if (cmd === 'contact') {
             return [
-                "Contact information:",
-                "Email: florian.savalle@viacesi.fr",
-                "Phone: +33 6.05.84.52.09",
-                "LinkedIn: https://www.linkedin.com/in/florian-savalle"
+                t('terminal.contact_info'),
+                `Email: ${t('about.floriancontent2')}`,
+                `${t('terminal.phone')}: ${t('about.floriancontent3')}`,
+                `LinkedIn: https://www.linkedin.com/in/florian-savalle`
             ];
         } else if (cmd === 'skills') {
             return [
-                "Skills:",
+                `${t('about.misctitle')}:`,
                 t('about.misccontent1'),
                 t('about.misccontent2'),
                 t('about.misccontent3'),
@@ -92,13 +92,13 @@ const Terminal = ({ onCommandExecuted }) => {
         } else if (cmd === 'matrix') {
             // Petit easter egg
             return [
-                "Wake up, Neo...",
-                "The Matrix has you...",
-                "Follow the white rabbit.",
-                "Knock, knock, Neo."
+                t('terminal.matrix1'),
+                t('terminal.matrix2'),
+                t('terminal.matrix3'),
+                t('terminal.matrix4')
             ];
         } else if (cmd === 'hello' || cmd === 'hi') {
-            return ["Hello! Type 'help' to see available commands."];
+            return [t('terminal.greeting')];
         } else if (cmd === '') {
             return [];
         } else {
@@ -108,13 +108,13 @@ const Terminal = ({ onCommandExecuted }) => {
 
     const handleCommand = (e) => {
         if (e.key === 'Enter') {
-            // On ajoute la commande à l'historique
+            // Add command to history
             setHistory(prev => [...prev, `C:\\> ${currentCommand}`]);
 
-            // Exécuter la commande et obtenir les résultats
+            // Execute command and get results
             const results = executeCommand(currentCommand);
 
-            // Ajouter les résultats à l'historique
+            // Add results to history
             if (results && results.length > 0) {
                 setHistory(prev => [...prev, ...results]);
             }
@@ -129,23 +129,23 @@ const Terminal = ({ onCommandExecuted }) => {
             className="bg-black p-4 font-mono text-sm h-full overflow-y-auto border-2 border-gray-800"
             onClick={() => inputRef.current?.focus()}
         >
-            {/* En-tête du terminal */}
+            {/* Terminal header */}
             <div className="mb-4 text-center text-green-500 font-bold">
                 ╔══════════════════════════════════════════════════════════╗
                 <br/>
-                ║&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Portfolio Command Line Interface - Type 'help'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;║
+                ║&nbsp;&nbsp;&nbsp;&nbsp;{t('terminal.header')}&nbsp;&nbsp;&nbsp;&nbsp;║
                 <br/>
                 ╚══════════════════════════════════════════════════════════╝
             </div>
 
-            {/* Historique des commandes */}
+            {/* Command history */}
             {history.map((line, i) => (
                 <div key={i} className="text-green-500 whitespace-pre-wrap mb-1">
                     {line}
                 </div>
             ))}
 
-            {/* Ligne de commande active */}
+            {/* Active command line */}
             <div className="text-green-500 flex">
                 <span>C:\&gt;&nbsp;</span>
                 <span>{currentCommand}</span>
@@ -156,7 +156,7 @@ const Terminal = ({ onCommandExecuted }) => {
                 </span>
             </div>
 
-            {/* Input caché pour la saisie */}
+            {/* Hidden input for typing */}
             <input
                 ref={inputRef}
                 type="text"

@@ -17,10 +17,19 @@ const resources = {
                     "contact - Contact information",
                     "skills - My skills",
                     "open [window] - Open a specific window (about, projects, experience, etc.)",
-                    "close - Close current window"
+                    "close - Close current window",
+                    "matrix - ???"
                 ],
                 "command_not_found": "Command not found: {{command}}",
-                "about": "Fullstack developer passionate about backend and distributed systems"
+                "about": "Fullstack developer passionate about backend and distributed systems",
+                "contact_info": "Contact information:",
+                "phone": "Phone",
+                "header": "Portfolio Command Line Interface - Type 'help'",
+                "greeting": "Hello! Type 'help' to see available commands.",
+                "matrix1": "Wake up, Neo...",
+                "matrix2": "The Matrix has you...",
+                "matrix3": "Follow the white rabbit.",
+                "matrix4": "Knock, knock, Neo."
             },
             "windows": {
                 "terminal": {
@@ -113,10 +122,19 @@ const resources = {
                     "contact - Informations de contact",
                     "skills - Mes compétences",
                     "open [fenêtre] - Ouvre une fenêtre spécifique (about, projects, experience, etc.)",
-                    "close - Ferme la fenêtre actuelle"
+                    "close - Ferme la fenêtre actuelle",
+                    "matrix - ???"
                 ],
                 "command_not_found": "Commande non reconnue: {{command}}",
-                "about": "Développeur fullstack passionné par le backend et les systèmes distribués"
+                "about": "Développeur fullstack passionné par le backend et les systèmes distribués",
+                "contact_info": "Informations de contact :",
+                "phone": "Téléphone",
+                "header": "Interface en ligne de commande du Portfolio - Tapez 'help'",
+                "greeting": "Bonjour ! Tapez 'help' pour voir les commandes disponibles.",
+                "matrix1": "Réveillez-vous, Neo...",
+                "matrix2": "La Matrice vous possède...",
+                "matrix3": "Suivez le lapin blanc.",
+                "matrix4": "Toc, toc, Neo."
             },
             "windows": {
                 "terminal": {
