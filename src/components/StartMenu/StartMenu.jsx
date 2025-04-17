@@ -25,16 +25,19 @@ const MenuItem = ({ title, onClick, className = "", icon }) => {
 
     return (
         <button
-            className={`w-full px-1 md:px-2 py-1 flex items-center gap-1 md:gap-2 hover:bg-win98-window-title hover:text-white
-                text-left text-xs md:text-sm ${className}`}
+            className={`w-full px-2 py-2 flex items-center gap-2 hover:bg-win98-window-title hover:text-white
+                text-left text-xs md:text-sm ${className} touch-manipulation`}
             onClick={onClick}
         >
-            {getIcon()}
+            <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
+                {getIcon()}
+            </div>
             <span className="truncate">{title}</span>
         </button>
     );
 };
 
+// Close icon for menu
 const CloseIcon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
         <path d="M2,2 L14,14 M2,14 L14,2" stroke="black" strokeWidth="1.5"/>
@@ -47,13 +50,13 @@ const StartMenu = ({ isOpen, onClose, windows, onWindowSelect }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="start-menu absolute bottom-[38px] left-1 z-50 w-36 md:w-48">
-            <div className="bg-win98-taskbar border-2 border-white">
+        <div className="start-menu absolute bottom-[38px] left-1 z-50 w-40 md:w-48 max-h-[calc(100vh-60px)] overflow-auto touch-manipulation">
+            <div className="bg-win98-taskbar border-2 border-white shadow-lg">
                 <div className="border-2 border-win98-window-border-dark">
                     <div className="flex">
                         <div className="w-4 md:w-6 bg-win98-window-title h-full flex-shrink-0" />
 
-                        <div className="flex-1 bg-win98-button-face py-1">
+                        <div className="flex-1 bg-win98-button-face">
                             {Object.entries(windows).map(([id, window]) => (
                                 <MenuItem
                                     key={id}

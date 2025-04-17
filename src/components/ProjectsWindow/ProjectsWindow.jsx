@@ -6,11 +6,14 @@ const ProjectCard = ({ content, index }) => {
     const title = parts[0].trim();
     const description = parts.length > 1 ? parts[1].trim() : '';
 
+    // Extract technologies from description (text between parentheses)
     const techMatch = description.match(/\(([^)]+)\)/);
     const technologies = techMatch ? techMatch[1].split(', ') : [];
 
+    // Clean description without the parentheses part
     const cleanDescription = description.replace(/\s*\([^)]*\)\s*/, ' ');
 
+    // Alternate colors for header background
     const colors = [
         'bg-blue-600',
         'bg-green-600',
@@ -21,21 +24,21 @@ const ProjectCard = ({ content, index }) => {
     const bgColor = colors[index % colors.length];
 
     return (
-        <div className="mb-3 md:mb-4 overflow-hidden transition-transform hover:scale-[1.01]">
+        <div className="mb-3 overflow-hidden transition-transform hover:scale-[1.01]">
             <div className="bg-gray-200 border-2 border-win98-button-face shadow-lg">
                 <div className="border-2 border-win98-window-border-dark">
                     <div className={`${bgColor} text-white px-2 py-1 font-bold text-xs md:text-sm overflow-hidden text-ellipsis whitespace-nowrap`}>
                         {title}
                     </div>
                     <div className="bg-white p-2 md:p-3">
-                        <p className="text-xs md:text-sm mb-2 md:mb-3 break-words">{cleanDescription}</p>
+                        <p className="text-xs md:text-sm mb-2 break-words leading-relaxed">{cleanDescription}</p>
 
                         {technologies.length > 0 && (
                             <div className="flex flex-wrap gap-1">
                                 {technologies.map((tech, index) => (
                                     <span
                                         key={index}
-                                        className="text-xs px-1 md:px-2 py-0.5 bg-gray-100 border border-win98-window-border-dark shadow-win98-btn hover:bg-gray-200 transition-colors whitespace-nowrap"
+                                        className="text-xs px-1 py-0.5 bg-gray-100 border border-win98-window-border-dark shadow-win98-btn hover:bg-gray-200 transition-colors whitespace-nowrap"
                                     >
                                         {tech}
                                     </span>
@@ -53,6 +56,7 @@ const ProjectsWindow = () => {
     const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
 
+    // Get all projects (assumes projects are numbered from 1 to X)
     const allProjects = [];
     let i = 1;
     while (t(`about.projectscontent${i}`, { defaultValue: '' }) !== '') {
@@ -60,13 +64,14 @@ const ProjectsWindow = () => {
         i++;
     }
 
+    // Filter projects based on search query
     const filteredProjects = allProjects.filter(project =>
         project.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <div className="h-full flex flex-col bg-win98-button-face">
-            <div className="p-2 md:p-4 border-b border-gray-300 bg-white">
+            <div className="p-2 md:p-4 border-b border-gray-300 bg-white sticky top-0 z-10">
                 <div className="shadow-win98-btn bg-white flex items-center">
                     <input
                         type="text"
@@ -87,7 +92,7 @@ const ProjectsWindow = () => {
             </div>
 
             <div className="flex-1 overflow-auto p-2 md:p-4">
-                <h2 className="text-base md:text-lg font-bold mb-3 md:mb-4 bg-blue-600 text-white px-2 py-1 rounded-sm truncate">
+                <h2 className="text-base md:text-lg font-bold mb-3 bg-blue-600 text-white px-2 py-1 rounded-sm truncate sticky top-0">
                     {t('about.projectstitle')}
                 </h2>
 
@@ -98,7 +103,7 @@ const ProjectsWindow = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center p-3 md:p-4 text-gray-500 bg-white border-2 border-win98-window-border-dark shadow-lg">
+                    <div className="text-center p-3 text-gray-500 bg-white border-2 border-win98-window-border-dark shadow-lg">
                         <p className="text-xs md:text-sm">{t('projects.no_results') || "No projects match your search."}</p>
                     </div>
                 )}
