@@ -32,14 +32,11 @@ const Window = ({
         const initialZIndex = registerWindow(windowId);
         setZIndex(initialZIndex);
 
-        // Adjust position if window extends beyond screen
         adjustWindowPosition();
 
-        // Ensure window is properly positioned on window resize
         const handleWindowResize = () => {
             adjustWindowPosition();
 
-            // Handle maximized windows on resize
             if (isMaximized && windowRef.current) {
                 const parent = windowRef.current.parentElement;
                 if (parent) {
@@ -58,7 +55,6 @@ const Window = ({
         };
     }, [isMaximized]);
 
-    // Adjust window position to keep it visible
     const adjustWindowPosition = () => {
         if (!windowRef.current) return;
 
@@ -68,17 +64,14 @@ const Window = ({
         const parentRect = parent.getBoundingClientRect();
         let newPos = { ...position };
 
-        // Keep at least 60px visible on X axis
         if (newPos.x + 60 > parentRect.width) {
             newPos.x = Math.max(0, parentRect.width - 120);
         }
 
-        // Keep at least 60px visible on Y axis
         if (newPos.y + 60 > parentRect.height) {
             newPos.y = Math.max(0, parentRect.height - 120);
         }
 
-        // Ensure window doesn't go off-screen to the left or top
         if (newPos.x < 0) newPos.x = 0;
         if (newPos.y < 0) newPos.y = 0;
 
@@ -87,7 +80,6 @@ const Window = ({
         }
     };
 
-    // Window management functions
     const saveCurrentState = () => ({
         position: { ...position },
         size: { ...size }
@@ -121,7 +113,6 @@ const Window = ({
         toggleMaximize();
     };
 
-    // Drag & drop handling
     const handleMouseDown = (e) => {
         if (isMaximized) return;
         if (e.target.closest('.resize-handle')) return;
@@ -180,12 +171,14 @@ const Window = ({
                     parentRect.width - position.x
                 ));
             }
+
             if (resizeDirection.includes('s')) {
                 newHeight = Math.max(200, Math.min(
                     resizeStart.height + deltaY,
                     parentRect.height - position.y
                 ));
             }
+
             if (resizeDirection.includes('w')) {
                 const possibleWidth = resizeStart.width - deltaX;
                 if (possibleWidth >= 250) {
@@ -196,6 +189,7 @@ const Window = ({
                     );
                 }
             }
+
             if (resizeDirection.includes('n')) {
                 const possibleHeight = resizeStart.height - deltaY;
                 if (possibleHeight >= 200) {
@@ -229,7 +223,6 @@ const Window = ({
         };
     }, [isDragging, isResizing]);
 
-    // Touch event handling for mobile devices
     const handleTouchStart = (e) => {
         if (isMaximized) return;
         if (!e.target.closest('.window-title-bar')) return;
@@ -253,12 +246,11 @@ const Window = ({
         let newX = touch.clientX - dragOffset.x;
         let newY = touch.clientY - dragOffset.y;
 
-        // Ensure title bar remains visible
         newX = Math.max(-windowRect.width + 100, Math.min(newX, parentRect.width - 50));
         newY = Math.max(0, Math.min(newY, parentRect.height - 30));
 
         setPosition({ x: newX, y: newY });
-        e.preventDefault(); // Prevent scrolling while dragging
+        e.preventDefault();
     };
 
     const handleTouchEnd = () => {
@@ -338,36 +330,39 @@ const Window = ({
                     {/* Resize handles */}
                     {!isMaximized && (
                         <>
+                            {/* Corner resize handles */}
                             <div
-                                className="resize-handle absolute top-0 right-0 w-3 h-3 cursor-ne-resize z-10"
+                                className="resize-handle absolute top-0 right-0 w-5 h-5 cursor-ne-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'ne')}
                             />
                             <div
-                                className="resize-handle absolute bottom-0 right-0 w-3 h-3 cursor-se-resize z-10"
+                                className="resize-handle absolute bottom-0 right-0 w-5 h-5 cursor-se-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'se')}
                             />
                             <div
-                                className="resize-handle absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize z-10"
+                                className="resize-handle absolute bottom-0 left-0 w-5 h-5 cursor-sw-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'sw')}
                             />
                             <div
-                                className="resize-handle absolute top-0 left-0 w-3 h-3 cursor-nw-resize z-10"
+                                className="resize-handle absolute top-0 left-0 w-5 h-5 cursor-nw-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'nw')}
                             />
+
+                            {/* Edge resize handles */}
                             <div
-                                className="resize-handle absolute top-0 w-full h-3 cursor-n-resize z-10"
+                                className="resize-handle absolute top-0 left-5 right-5 h-3 cursor-n-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'n')}
                             />
                             <div
-                                className="resize-handle absolute bottom-0 w-full h-3 cursor-s-resize z-10"
+                                className="resize-handle absolute bottom-0 left-5 right-5 h-3 cursor-s-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 's')}
                             />
                             <div
-                                className="resize-handle absolute left-0 h-full w-3 cursor-w-resize z-10"
+                                className="resize-handle absolute left-0 top-5 bottom-5 w-3 cursor-w-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'w')}
                             />
                             <div
-                                className="resize-handle absolute right-0 h-full w-3 cursor-e-resize z-10"
+                                className="resize-handle absolute right-0 top-5 bottom-5 w-3 cursor-e-resize z-10"
                                 onMouseDown={(e) => handleResizeStart(e, 'e')}
                             />
                         </>

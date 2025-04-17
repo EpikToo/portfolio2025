@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CVDownloadButton from '../CVDownloadButton/CVDownloadButton';
 import { LinkedInButton, GitHubButton } from '../SocialButtons/SocialButtons';
+import AgeCalculator from '../AgeCalculator/AgeCalculator';
 
-// Composant de titre de section avec des couleurs plus vives
 const SectionTitle = ({ children, color = "bg-win98-window-title" }) => (
     <div className={`${color} text-white px-2 py-1 mb-2 rounded-sm`}>
         <h2 className="text-lg font-bold truncate">{children}</h2>
@@ -16,11 +16,9 @@ const AboutWindow = () => {
     return (
         <div className="h-full overflow-auto bg-win98-button-face p-2 md:p-4">
             <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                {/* Profile section */}
                 <div className="md:w-1/3 flex flex-col">
                     <div className="bg-white border-2 border-win98-window-border-dark p-2 md:p-4 mb-4 hover:shadow-lg transition-shadow">
                         <div className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 border-2 border-win98-window-border-dark shadow-win98-btn overflow-hidden">
-                            {/* Image de profil */}
                             <img
                                 src="/profilepic.png"
                                 alt="Florian Savalle"
@@ -31,12 +29,10 @@ const AboutWindow = () => {
                         <h1 className="text-xl font-bold text-center mb-2 break-words">{t('about.nametitle')}</h1>
                         <p className="text-center mb-4 text-sm break-words">{t('about.namecontent')}</p>
 
-                        {/* Bouton de téléchargement de CV */}
                         <div className="mt-4">
                             <CVDownloadButton />
                         </div>
 
-                        {/* Boutons des réseaux sociaux */}
                         <div className="mt-3 flex flex-wrap gap-2 justify-center">
                             <LinkedInButton />
                             <GitHubButton />
@@ -49,7 +45,7 @@ const AboutWindow = () => {
                             <ul className="space-y-2 text-xs md:text-sm">
                                 <li className="flex items-start">
                                     <span className="font-bold w-12 md:w-16 flex-shrink-0">Age:</span>
-                                    <span className="break-words">{t('about.floriancontent1')}</span>
+                                    <span className="break-words"><AgeCalculator /> {t('about.years')}</span>
                                 </li>
                                 <li className="flex items-start">
                                     <span className="font-bold w-12 md:w-16 flex-shrink-0">Email:</span>

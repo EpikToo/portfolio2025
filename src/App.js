@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './i18n';
-import './win98.css'; // Import improved Windows 98 styles
+import './win98.css';
 import Window from './components/Window/Window';
 import Terminal from './components/Terminal/Terminal';
 import AboutWindow from './components/AboutWindow/AboutWindow';
@@ -16,25 +16,25 @@ const AppContent = () => {
     const [isBooting, setIsBooting] = useState(true);
     const [windows, setWindows] = useState({
         terminal: {
-            isOpen: false, // Terminal closed by default
+            isOpen: false,
             isMinimized: false,
             isActive: false,
             title: t('windows.terminal.title')
         },
         about: {
-            isOpen: true,  // About opened by default
+            isOpen: true,
             isMinimized: false,
             isActive: true,  // About active by default
             title: t('windows.about.title')
         },
         projects: {
-            isOpen: false,  // Projects closed by default
+            isOpen: false,
             isMinimized: false,
             isActive: false,
             title: t('windows.projects.title')
         },
         experience: {
-            isOpen: false,  // Experience closed by default
+            isOpen: false,
             isMinimized: false,
             isActive: false,
             title: t('windows.experience.title')
@@ -45,12 +45,10 @@ const AppContent = () => {
         setIsBooting(false);
     };
 
-    // Handle clicks in the taskbar
     const handleTaskbarClick = (windowId) => {
         setWindows(prev => {
             const newWindows = { ...prev };
 
-            // If the window is minimized, restore it
             if (newWindows[windowId].isMinimized) {
                 Object.keys(newWindows).forEach(key => {
                     newWindows[key].isActive = false;
@@ -62,7 +60,6 @@ const AppContent = () => {
                     isActive: true
                 };
             }
-            // If the window is already active, minimize it
             else if (newWindows[windowId].isActive) {
                 newWindows[windowId] = {
                     ...newWindows[windowId],
@@ -70,7 +67,6 @@ const AppContent = () => {
                     isActive: false
                 };
             }
-            // Otherwise, simply activate it
             else {
                 Object.keys(newWindows).forEach(key => {
                     newWindows[key].isActive = false;
@@ -86,17 +82,14 @@ const AppContent = () => {
         });
     };
 
-    // Handle terminal commands
     const handleTerminalCommand = (command) => {
         setWindows(prev => {
             const newWindows = { ...prev };
 
-            // Deactivate all windows
             Object.keys(newWindows).forEach(key => {
                 newWindows[key].isActive = false;
             });
 
-            // Open/activate the requested window
             if (newWindows[command]) {
                 newWindows[command] = {
                     ...newWindows[command],
@@ -110,16 +103,13 @@ const AppContent = () => {
         });
     };
 
-    // Specific handling for the Start menu
     const handleStartMenuClick = (windowId) => {
         setWindows(prev => {
             const newWindows = { ...prev };
-            // Deactivate all windows
             Object.keys(newWindows).forEach(key => {
                 newWindows[key].isActive = false;
             });
 
-            // Force the opening of the selected window
             newWindows[windowId] = {
                 ...newWindows[windowId],
                 isOpen: true,
@@ -154,9 +144,7 @@ const AppContent = () => {
         }));
     };
 
-    // Calculate positions for each window
     const getWindowPosition = (index) => {
-        // Predefined positions for each window type
         const positions = [
             { x: 50, y: 50 },    // Terminal
             { x: 120, y: 40 },   // About
@@ -164,12 +152,10 @@ const AppContent = () => {
             { x: 80, y: 120 }    // Experience
         ];
 
-        // If index is in the array, return its predefined position
         if (index < positions.length) {
             return positions[index];
         }
 
-        // Otherwise, calculate a random position but not too close to the edges
         const randomX = Math.floor(Math.random() * 200) + 50;
         const randomY = Math.floor(Math.random() * 150) + 50;
 
@@ -183,7 +169,6 @@ const AppContent = () => {
     return (
         <div className="h-screen flex flex-col overflow-hidden bg-win98-desktop cursor-win98-default">
             <main className="flex-1 relative">
-                {/* Terminal Window */}
                 {windows.terminal.isOpen && (
                     <Window
                         title={t('windows.terminal.title')}
@@ -198,7 +183,6 @@ const AppContent = () => {
                     </Window>
                 )}
 
-                {/* About Window */}
                 {windows.about.isOpen && (
                     <Window
                         title={t('windows.about.title')}
@@ -213,7 +197,6 @@ const AppContent = () => {
                     </Window>
                 )}
 
-                {/* Projects Window */}
                 {windows.projects.isOpen && (
                     <Window
                         title={t('windows.projects.title')}
@@ -228,7 +211,6 @@ const AppContent = () => {
                     </Window>
                 )}
 
-                {/* Experience Window */}
                 {windows.experience.isOpen && (
                     <Window
                         title={t('windows.experience.title')}

@@ -3,31 +3,22 @@ import './BootAnimation.css';
 
 const BootAnimation = ({ onBootComplete }) => {
     const [stage, setStage] = useState(0);
-    // Stages:
-    // 0: Initial blank
-    // 1: Windows 98 logo
-    // 2: Loading...
-    // 3: Startup complete
 
     useEffect(() => {
         const timers = [];
 
-        // Blank screen to Windows logo
         timers.push(setTimeout(() => {
             setStage(1);
         }, 1000));
 
-        // Logo to loading
         timers.push(setTimeout(() => {
             setStage(2);
         }, 2000));
 
-        // Loading complete
         timers.push(setTimeout(() => {
             setStage(3);
         }, 4000));
 
-        // Fade out and complete
         timers.push(setTimeout(() => {
             onBootComplete();
         }, 5000));

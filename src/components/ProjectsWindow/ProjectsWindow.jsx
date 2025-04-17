@@ -6,14 +6,11 @@ const ProjectCard = ({ content, index }) => {
     const title = parts[0].trim();
     const description = parts.length > 1 ? parts[1].trim() : '';
 
-    // Extract technologies from description (text between parentheses)
     const techMatch = description.match(/\(([^)]+)\)/);
     const technologies = techMatch ? techMatch[1].split(', ') : [];
 
-    // Clean description without the parentheses part
     const cleanDescription = description.replace(/\s*\([^)]*\)\s*/, ' ');
 
-    // Alternate colors for header background
     const colors = [
         'bg-blue-600',
         'bg-green-600',
@@ -56,7 +53,6 @@ const ProjectsWindow = () => {
     const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Get all projects (assumes projects are numbered from 1 to X)
     const allProjects = [];
     let i = 1;
     while (t(`about.projectscontent${i}`, { defaultValue: '' }) !== '') {
@@ -64,7 +60,6 @@ const ProjectsWindow = () => {
         i++;
     }
 
-    // Filter projects based on search query
     const filteredProjects = allProjects.filter(project =>
         project.toLowerCase().includes(searchQuery.toLowerCase())
     );

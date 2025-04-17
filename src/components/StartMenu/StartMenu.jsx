@@ -35,7 +35,6 @@ const MenuItem = ({ title, onClick, className = "", icon }) => {
     );
 };
 
-// Icône de fermeture pour le menu
 const CloseIcon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" className="inline-block">
         <path d="M2,2 L14,14 M2,14 L14,2" stroke="black" strokeWidth="1.5"/>
