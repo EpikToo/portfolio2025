@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import BSOD from '../BSOD/BSOD';
+import ApertureEasterEgg from '../ApertureEasterEgg/ApertureEasterEgg';
 
 const Terminal = ({ onCommandExecuted }) => {
     const { t } = useTranslation();
@@ -8,6 +9,7 @@ const Terminal = ({ onCommandExecuted }) => {
     const [currentCommand, setCurrentCommand] = useState('');
     const [cursorVisible, setCursorVisible] = useState(true);
     const [matrixMode, setMatrixMode] = useState(false);
+    const [apertureMode, setApertureMode] = useState(false);
     const [matrixStep, setMatrixStep] = useState(0);
     const [showBSOD, setShowBSOD] = useState(false);
     const inputRef = useRef(null);
@@ -135,10 +137,17 @@ const Terminal = ({ onCommandExecuted }) => {
         } else if (cmd === 'matrix') {
             setMatrixMode(true);
             return ["Entering the Matrix..."];
+        } else if (cmd === 'aperture') {
+            setApertureMode(true);
+            return ["Initializing Aperture Science Enrichment Center..."];
         } else if (cmd === 'hello' || cmd === 'hi') {
             return [t('terminal.greeting')];
         } else if (cmd === '') {
             return [];
+        } else if (cmd === 'cake') {
+            return ["The cake is a lie."];
+        } else if (cmd === 'portal') {
+            return ["Aperture Science - Portal Testing Initiative. Type 'aperture' to begin."];
         } else {
             return [t('terminal.command_not_found', { command })];
         }
@@ -146,7 +155,7 @@ const Terminal = ({ onCommandExecuted }) => {
 
     const handleCommand = (e) => {
         if (e.key === 'Enter') {
-            if (matrixMode) return;
+            if (matrixMode || apertureMode) return;
 
             setHistory(prev => [...prev, `C:\\> ${currentCommand}`]);
 
@@ -173,6 +182,11 @@ const Terminal = ({ onCommandExecuted }) => {
         setHistory(prev => [...prev, "System rebooted. Type 'help' for commands."]);
     };
 
+    const handleApertureClose = () => {
+        setApertureMode(false);
+        setHistory(prev => [...prev, "Portal test complete. Thank you for your participation."]);
+    };
+
     return (
         <>
             <div
@@ -193,7 +207,7 @@ const Terminal = ({ onCommandExecuted }) => {
                     </div>
                 ))}
 
-                {!matrixMode && (
+                {!matrixMode && !apertureMode && (
                     <div className="text-green-500 flex text-xs md:text-sm break-all">
                         <span>C:\&gt;&nbsp;</span>
                         <span>{currentCommand}</span>
@@ -221,6 +235,7 @@ const Terminal = ({ onCommandExecuted }) => {
             </div>
 
             {showBSOD && <BSOD onClose={handleBSODClose} />}
+            {apertureMode && <ApertureEasterEgg onClose={handleApertureClose} />}
         </>
     );
 };

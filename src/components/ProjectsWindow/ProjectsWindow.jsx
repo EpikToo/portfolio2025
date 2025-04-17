@@ -6,14 +6,11 @@ const ProjectCard = ({ content, index }) => {
     const title = parts[0].trim();
     const description = parts.length > 1 ? parts[1].trim() : '';
 
-    // Extract technologies from description (text between parentheses)
     const techMatch = description.match(/\(([^)]+)\)/);
     const technologies = techMatch ? techMatch[1].split(', ') : [];
 
-    // Clean description without the parentheses part
     const cleanDescription = description.replace(/\s*\([^)]*\)\s*/, ' ');
 
-    // Alternate colors for header background
     const colors = [
         'bg-blue-600',
         'bg-green-600',
@@ -56,7 +53,6 @@ const ProjectsWindow = () => {
     const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Get all projects (assumes projects are numbered from 1 to X)
     const allProjects = [];
     let i = 1;
     while (t(`about.projectscontent${i}`, { defaultValue: '' }) !== '') {
@@ -64,14 +60,13 @@ const ProjectsWindow = () => {
         i++;
     }
 
-    // Filter projects based on search query
     const filteredProjects = allProjects.filter(project =>
         project.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
-        <div className="h-full flex flex-col bg-win98-button-face">
-            <div className="p-2 md:p-4 border-b border-gray-300 bg-white sticky top-0 z-10">
+        <div className="h-full flex flex-col bg-win98-button-face overflow-hidden">
+            <div className="p-2 md:p-4 border-b border-gray-300 bg-white z-10">
                 <div className="shadow-win98-btn bg-white flex items-center">
                     <input
                         type="text"
@@ -91,22 +86,26 @@ const ProjectsWindow = () => {
                 </div>
             </div>
 
-            <div className="flex-1 overflow-auto p-2 md:p-4">
-                <h2 className="text-base md:text-lg font-bold mb-3 bg-blue-600 text-white px-2 py-1 rounded-sm truncate sticky top-0">
-                    {t('about.projectstitle')}
-                </h2>
+            <div className="flex flex-col flex-1 overflow-hidden">
+                <div className="bg-win98-button-face p-2 md:p-4 z-10">
+                    <h2 className="text-base md:text-lg font-bold bg-blue-600 text-white px-2 py-1 rounded-sm truncate">
+                        {t('about.projectstitle')}
+                    </h2>
+                </div>
 
-                {filteredProjects.length > 0 ? (
-                    <div className="space-y-1">
-                        {filteredProjects.map((project, index) => (
-                            <ProjectCard key={index} content={project} index={index} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-center p-3 text-gray-500 bg-white border-2 border-win98-window-border-dark shadow-lg">
-                        <p className="text-xs md:text-sm">{t('projects.no_results') || "No projects match your search."}</p>
-                    </div>
-                )}
+                <div className="flex-1 overflow-auto p-2 md:p-4 pt-0">
+                    {filteredProjects.length > 0 ? (
+                        <div className="space-y-1">
+                            {filteredProjects.map((project, index) => (
+                                <ProjectCard key={index} content={project} index={index} />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center p-3 text-gray-500 bg-white border-2 border-win98-window-border-dark shadow-lg">
+                            <p className="text-xs md:text-sm">{t('projects.no_results') || "No projects match your search."}</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

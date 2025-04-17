@@ -24,7 +24,7 @@ const AppContent = () => {
         about: {
             isOpen: true,
             isMinimized: false,
-            isActive: true,  // About active by default
+            isActive: true,
             title: t('windows.about.title')
         },
         projects: {

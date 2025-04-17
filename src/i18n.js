@@ -18,7 +18,8 @@ const resources = {
                     "skills - My skills",
                     "open [window] - Open a specific window (about, projects, experience, etc.)",
                     "close - Close current window",
-                    "matrix - ???"
+                    "matrix - ???",
+                    "aperture - ???"
                 ],
                 "command_not_found": "Command not found: {{command}}",
                 "about": "Backend developer specialized in data processing and distributed systems",
@@ -29,7 +30,11 @@ const resources = {
                 "matrix1": "Wake up, Neo...",
                 "matrix2": "The Matrix has you...",
                 "matrix3": "Follow the white rabbit.",
-                "matrix4": "Knock, knock, Neo."
+                "matrix4": "Knock, knock, Neo.",
+                "aperture1": "Hello and welcome to the Aperture Science Computer-Aided Portfolio Enrichment Center.",
+                "aperture2": "We hope your brief detention in the relaxation vault has been a pleasant one.",
+                "aperture3": "For your own safety, please do not destroy vital testing apparatus.",
+                "aperture4": "Remember: The cake is a lie."
             },
             "windows": {
                 "terminal": {
@@ -56,7 +61,8 @@ const resources = {
                 "language": "Click here to change language"
             },
             "menu": {
-                "close": "Close"
+                "close": "Close",
+                "confirm_close": "Are you sure you want to close the portfolio?"
             },
             "projects": {
                 "search_placeholder": "Search projects...",
@@ -123,7 +129,8 @@ const resources = {
                     "skills - Mes compétences",
                     "open [fenêtre] - Ouvre une fenêtre spécifique (about, projects, experience, etc.)",
                     "close - Ferme la fenêtre actuelle",
-                    "matrix - ???"
+                    "matrix - ???",
+                    "aperture - ???"
                 ],
                 "command_not_found": "Commande non reconnue: {{command}}",
                 "about": "Développeur backend spécialisé en traitement de données et systèmes distribués",
@@ -134,7 +141,11 @@ const resources = {
                 "matrix1": "Réveillez-vous, Neo...",
                 "matrix2": "La Matrice vous possède...",
                 "matrix3": "Suivez le lapin blanc.",
-                "matrix4": "Toc, toc, Neo."
+                "matrix4": "Toc, toc, Neo.",
+                "aperture1": "Bonjour et bienvenue au Centre d'Enrichissement de Portfolio Assisté par Ordinateur d'Aperture Science.",
+                "aperture2": "Nous espérons que votre brève détention dans la chambre de relaxation a été agréable.",
+                "aperture3": "Pour votre propre sécurité, veuillez ne pas détruire l'équipement de test vital.",
+                "aperture4": "Souvenez-vous : Le gâteau est un mensonge."
             },
             "windows": {
                 "terminal": {
@@ -161,7 +172,8 @@ const resources = {
                 "language": "Cliquez ici pour changer la langue"
             },
             "menu": {
-                "close": "Fermer"
+                "close": "Fermer",
+                "confirm_close": "Êtes-vous sûr de vouloir fermer le portfolio ?"
             },
             "projects": {
                 "search_placeholder": "Rechercher des projets...",
